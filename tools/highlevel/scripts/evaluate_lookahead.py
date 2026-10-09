@@ -11,6 +11,7 @@ Rule (better / equal / worse, sign test, 95 % interval).
 """
 
 import argparse
+from dataclasses import replace
 import json
 from math import comb
 import multiprocessing as mp
@@ -18,7 +19,7 @@ from pathlib import Path
 import statistics
 import time
 
-from _common import add_common_args, load_all
+from _common import add_common_args, load_all, load_lookahead
 
 from pac_highlevel import RulePolicy, run_policy
 from pac_highlevel.lookahead import LookaheadPolicy, lookahead_config_from_dict
@@ -26,6 +27,7 @@ from pac_highlevel.placement import LayerPlacer, layer_config_from_dict
 from virtual_data.highlevel import split_ids, world_factory
 
 _JOB = None
+_BASE_LA = lookahead_config_from_dict({})  # replaced by the environment-aware config in main()
 KEEP = ("pallet_equivalents", "fill_per_pallet_used", "time_s", "ng", "safety_issues", "pallets_used",
         "pallets_closed", "closed_fill_mean")
 
@@ -43,7 +45,7 @@ def _parse_variant(text):
         if key.startswith("layer_"):
             default = getattr(layer_config_from_dict({}), key[6:])
         else:
-            default = getattr(lookahead_config_from_dict({}), key)
+            default = getattr(_BASE_LA, key)
         params[key] = type(default)(value) if not isinstance(default, str) else value
     return name, params
 
@@ -66,7 +68,7 @@ def _episode(i):
     row["rule"] = {k: out[k] for k in KEEP} | {"wall_s": round(time.perf_counter() - t, 1)}
     for name, params in variants:
         kind, placer, cfg = _variant_parts(params)
-        policy = RulePolicy(hl) if kind == "rule" else LookaheadPolicy(hl, lookahead_config_from_dict(cfg))
+        policy = RulePolicy(hl) if kind == "rule" else LookaheadPolicy(hl, replace(_BASE_LA, **cfg))
         t = time.perf_counter()
         out = run_policy(make(placer)(i), policy)
         row[name] = {k: out[k] for k in KEEP} | {"wall_s": round(time.perf_counter() - t, 1)}
@@ -137,6 +139,8 @@ def main():
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     dataset, cand, vcfg, hl = load_all(args)
+    global _BASE_LA
+    _BASE_LA = load_lookahead(args)
     variants = [_parse_variant(v) for v in args.variant] or [("N3", {"horizon": 3})]
     specs = split_ids(dataset, args.split)
     n = len(specs) * args.passes

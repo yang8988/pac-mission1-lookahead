@@ -445,12 +445,18 @@ class PalletizingWorld:
     def _close_before_buffer(self, mask):
         """CLOSE rule: a well-filled pallet is closed instead of forcing the
         current box into the buffer when nothing can be placed now."""
-        threshold = self.config.close.fill_before_buffer
-        if threshold <= 0.0 or self.current is None or not self.placed:
+        close = self.config.close
+        if self.current is None or not self.placed:
             return False
         if mask[0] or mask[2:].any():
             return False
-        return self.fill() >= threshold
+        if close.mode == "dead":
+            from .lookahead import LookaheadConfig, dead_share, window_clone
+
+            # current + buffer boxes + order list only (no unseen arrivals)
+            return dead_share(window_clone(self, self.next_arrival), LookaheadConfig()) >= close.dead_share
+        threshold = close.fill_before_buffer
+        return threshold > 0.0 and self.fill() >= threshold
 
     def _reject(self, arrival):
         self.ng.append(arrival.box.box_id)

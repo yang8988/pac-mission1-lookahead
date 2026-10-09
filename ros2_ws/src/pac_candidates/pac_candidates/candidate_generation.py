@@ -74,7 +74,9 @@ def candidate_yaws(box, config):
             continue
     result = []
     footprints = set()
-    for yaw in config.generation.yaw_set_rad:
+    # empty yaw_set_rad: take every orientation the SKU itself allows
+    yaws = config.generation.yaw_set_rad or tuple(a for a, _ in allowed)
+    for yaw in yaws:
         try:
             parity = quarter_turns(yaw) % 2
         except ValueError:

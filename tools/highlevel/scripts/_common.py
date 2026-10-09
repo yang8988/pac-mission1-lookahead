@@ -16,14 +16,17 @@ import team_paths
 team_paths.bootstrap()
 
 from pac_candidates import load_candidate_config
-from pac_highlevel import load_highlevel_config
+from pac_highlevel import load_highlevel_config, load_lookahead_config
 from virtual_data import load_virtual_config
+from virtual_data.environment import apply_environment, load_environment
 from virtual_data.scenario_source import load_dataset, run_generator
 
 DEFAULTS = {
     "candidate_config": REPO / "config/taehyeon/candidates.yaml",
     "virtual_config": REPO / "config/taehyeon/virtual_data.yaml",
     "highlevel_config": REPO / "config/taehyeon/highlevel.yaml",
+    "lookahead_config": REPO / "config/taehyeon/lookahead.yaml",
+    "environment": REPO / "config/environment.yaml",
 }
 
 
@@ -47,9 +50,21 @@ def load_all(args):
                                 boxes_per_scenario=args.boxes_per_scenario))
     if dataset_dir is None:
         raise SystemExit("--dataset or --run-generator is required")
-    return (
-        load_dataset(dataset_dir),
+    env = load_environment(args.environment)
+    cand, vcfg, hl, _ = apply_environment(
+        env,
         load_candidate_config(args.candidate_config),
         load_virtual_config(args.virtual_config),
         load_highlevel_config(args.highlevel_config),
     )
+    return load_dataset(dataset_dir), cand, vcfg, hl
+
+
+def load_lookahead(args):
+    """Look-ahead config with the environment (N, decision budget) written in."""
+    env = load_environment(args.environment)
+    return apply_environment(env, la=load_lookahead_config(args.lookahead_config))[3]
+
+
+def load_env(args):
+    return load_environment(args.environment)

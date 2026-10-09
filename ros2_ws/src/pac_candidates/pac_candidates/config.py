@@ -44,6 +44,10 @@ class GenerationConfig:
     ems_anchors: tuple[str, ...] = ANCHORS
     # Candidates closer than this (same yaw, x and y) are duplicates.
     dedup_distance_m: float = 0.08
+    # scale-free form (used when > 0): duplicates within this share of the
+    # box's shorter footprint side, so small and large boxes are sampled
+    # equally densely
+    dedup_distance_ratio: float = 0.0
     # geometric: keep the first by priority (flow-chart order: dedup before
     # mask). support_aware: inside a duplicate cluster prefer a candidate
     # whose vectorised support-ratio/height estimate passes (cheap proxy of
@@ -68,8 +72,7 @@ class GenerationConfig:
     def __post_init__(self):
         object.__setattr__(self, "yaw_set_rad", tuple(self.yaw_set_rad))
         object.__setattr__(self, "ems_anchors", tuple(self.ems_anchors))
-        if not self.yaw_set_rad:
-            raise ValueError("yaw_set_rad must not be empty")
+        # empty yaw_set_rad = use each SKU's own allowed orientations
         for yaw in self.yaw_set_rad:
             _number(yaw, "yaw_set_rad")
         if not (self.use_ems or self.use_extreme_points):
@@ -78,6 +81,7 @@ class GenerationConfig:
             if anchor not in ANCHORS:
                 raise ValueError(f"Unknown EMS anchor: {anchor}")
         _number(self.dedup_distance_m, "dedup_distance_m", 0.0)
+        _number(self.dedup_distance_ratio, "dedup_distance_ratio", 0.0)
         if self.dedup_mode not in DEDUP_MODES:
             raise ValueError(f"dedup_mode must be one of {DEDUP_MODES}")
         if self.order not in ("priority", "likely_valid_first"):

@@ -151,18 +151,34 @@ def test_one_placement_candidate_is_the_plain_action_search():
 
 
 def test_layer_placer_continues_a_level_surface():
-    from pac_highlevel import LayerPlacer
-    from pac_highlevel.placement import ring_metrics, LayerConfig
+    from pac_highlevel.placement import ring_metrics
     import numpy as np
 
-    cfg = LayerConfig()
     grid = np.zeros((60, 50))
     grid[0:20, :] = 0.2  # a 0.4 m wide strip of 0.2 m boxes along x = 0..0.4
-    # 0.2 m box on the floor right next to the strip: flush with its top
-    step_a, flush_a = ring_metrics(grid, 0.4, 0.0, 0.0, 0.2, 0.4, 0.2, cfg)
+    args = (grid, 0.4, 0.0, 0.0, 0.2, 0.4)
+    # 0.2 m box on the floor right next to the strip: level with its top
+    level_a, step_a, flush_a = ring_metrics(*args, 0.2, 0.02, 0.003, 0.15)
     # 0.1 m box there: leaves a 0.1 m step
-    step_b, flush_b = ring_metrics(grid, 0.4, 0.0, 0.0, 0.2, 0.4, 0.1, cfg)
+    level_b, step_b, flush_b = ring_metrics(*args, 0.1, 0.02, 0.003, 0.15)
+    assert level_a == 0.0 and level_b == 1.0
     assert step_a < step_b and flush_a > flush_b
+
+
+def test_any_step_breaks_the_level_whatever_the_box_size():
+    """A box placed across a 1 cm step rests on the higher part only, as on a
+    10 cm step: both count as "not level" (the step size only matters for
+    filling it later)."""
+    from pac_highlevel.placement import ring_metrics
+    import numpy as np
+
+    grid = np.zeros((60, 50))
+    grid[0:20, :] = 0.2
+    args = (grid, 0.4, 0.0, 0.0, 0.2, 0.4)
+    small = ring_metrics(*args, 0.19, 0.02, 0.003, 0.15)
+    large = ring_metrics(*args, 0.10, 0.02, 0.003, 0.15)
+    assert small[0] == large[0] == 1.0
+    assert small[1] < large[1]
 
 
 def test_layer_placer_picks_only_valid_candidates_and_keeps_episodes_safe():

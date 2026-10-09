@@ -144,6 +144,7 @@ def load_dataset(dataset_dir):
         events = sorted(truth["arrival_events"], key=lambda e: e["arrival_index"])
         pallet = planner_safe["initial_system_state"]["pallet"]
         constraints = planner_safe.get("constraints", {})
+        above_deck = constraints.get("height_reference") == "above_deck"
         scenarios.append(
             ScenarioSpec(
                 scenario_id=planner_safe["scenario_id"],
@@ -151,8 +152,13 @@ def load_dataset(dataset_dir):
                 seed=int(planner_safe["seed"]),
                 pallet_id=pallet["pallet_id"],
                 pallet_xy=(float(pallet["size"]["x"]), float(pallet["size"]["y"])),
-                pallet_deck_m=float(pallet["size"]["z"]),
-                max_height_m=float(constraints.get("max_height_m", 1.5)),
+                # generator >= 1.3 (team standard v0.3): size.z is the cargo height
+                # ABOVE the deck and constraints carry deck_height_m /
+                # max_stack_height_m; older versions: size.z = deck thickness and
+                # max_height_m includes the deck
+                pallet_deck_m=float(constraints["deck_height_m"]) if above_deck else float(pallet["size"]["z"]),
+                max_height_m=(float(constraints["deck_height_m"]) + float(constraints["max_stack_height_m"])
+                              if above_deck else float(constraints.get("max_height_m", 1.5))),
                 max_load_kg=constraints.get("max_load_kg"),
                 arrivals=tuple(box_from_json(e["box_state"]) for e in events),
             )
@@ -161,6 +167,8 @@ def load_dataset(dataset_dir):
 
 
 def stack_height_limit(spec, config):
+    if config.pallet.max_stack_height_m > 0:  # environment override
+        return config.pallet.max_stack_height_m
     if config.pallet.height_limit_includes_pallet:
         return spec.max_height_m - spec.pallet_deck_m
     return spec.max_height_m
@@ -174,13 +182,19 @@ def build_catalog(sku_ranges, config, load_model):
             weight = r.weight_max_kg
         else:
             weight = 0.5 * (r.weight_min_kg + r.weight_max_kg)
-        capacity = mckee_capacity_n(
-            r.size.x,
-            r.size.y,
-            load_model.ect_n_per_m,
-            load_model.board_thickness_m,
-            load_model.safety_factor,
-        )
+        kind = config.catalog.packaging_of(sku_id)
+        if kind == "no_stack":
+            capacity = 0.0
+        elif kind == "rigid_crate":
+            capacity = config.catalog.rated_top_load_n.get(sku_id, config.catalog.default_rated_top_load_n)
+        else:
+            capacity = mckee_capacity_n(
+                r.size.x,
+                r.size.y,
+                load_model.ect_n_per_m,
+                load_model.board_thickness_m,
+                load_model.safety_factor,
+            )
         catalog[sku_id] = SkuSpec(
             sku_id, r.size, round(weight, 6), r.allowed_yaws_rad, round(capacity, 3)
         )

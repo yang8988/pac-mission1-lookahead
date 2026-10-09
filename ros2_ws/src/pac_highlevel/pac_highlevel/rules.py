@@ -41,12 +41,13 @@ class RulePolicy:
         current, buffered = world.options()
         for i, entry in enumerate(world.buffer):
             if entry is not None and mask[2 + i] and (
-                world.decisions - entry.stored_at >= self.cfg.max_buffer_age
+                world.decisions - entry.stored_at >= self.cfg.age_limit(world.slots)
             ):
                 return HighLevelAction(ActionType.RETRIEVE_BUFFER, i)
         best = _best_buffered(buffered, mask)
         if mask[0] and current.support_ratio >= self.cfg.good_support:
-            if best is not None and best[2].top_after < current.top_after - self.cfg.retrieve_margin_m:
+            margin = self.cfg.margin_for(world.current.box)
+            if best is not None and best[2].top_after < current.top_after - margin:
                 return HighLevelAction(ActionType.RETRIEVE_BUFFER, best[1])
             return HighLevelAction(ActionType.PLACE_CURRENT)
         if best is not None:

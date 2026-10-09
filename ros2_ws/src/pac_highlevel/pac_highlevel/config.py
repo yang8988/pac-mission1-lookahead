@@ -57,6 +57,19 @@ class RuleConfig:
     good_support: float = 0.95  # current box placement considered "good"
     retrieve_margin_m: float = 0.02  # buffered box preferred if its top is this much lower
     max_buffer_age: int = 12  # decisions; older buffered boxes are retrieved first
+    # scale-free forms (used when > 0, so the rule holds for any box/buffer size):
+    retrieve_margin_ratio: float = 0.0  # x height of the current box
+    max_buffer_age_per_slot: float = 0.0  # x buffer slots
+
+    def margin_for(self, box):
+        if self.retrieve_margin_ratio > 0:
+            return self.retrieve_margin_ratio * box.size.z
+        return self.retrieve_margin_m
+
+    def age_limit(self, slots):
+        if self.max_buffer_age_per_slot > 0:
+            return max(1, int(round(self.max_buffer_age_per_slot * max(1, slots))))
+        return self.max_buffer_age
 
 
 @dataclass(frozen=True)
@@ -67,6 +80,12 @@ class CloseConfig:
     # fraction is closed right away instead of forcing the box into the
     # buffer (0 disables; taehyeon 2026-10-08).
     fill_before_buffer: float = 0.30  # val sweep: pallets ~even (+0.04), robot time -26 s
+    # "fill": close when fill >= fill_before_buffer (fixed number, environment
+    # dependent). "dead": close when at least ``dead_share`` of the expected
+    # volume (current + buffer boxes + the order list's main SKUs) has no safe
+    # spot on this pallet any more -- a judgement, not a tuned fill level.
+    mode: str = "fill"
+    dead_share: float = 0.5
 
 
 @dataclass(frozen=True)

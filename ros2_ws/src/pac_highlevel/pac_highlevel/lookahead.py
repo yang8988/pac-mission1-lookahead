@@ -58,6 +58,7 @@ class LookaheadConfig:
     mode: str = "pilot"         # pilot | beam
     beam: int = 3               # beam mode: states kept per first action and level
     time_budget_s: float = 0.0  # per decision; 0 = no limit
+    time_budget_ratio: float = 0.0  # if > 0: budget = ratio x pick-and-place cycle (overrides time_budget_s)
     margin: float = 0.005       # leave the rule action only if the score is better by this
     # leaf score weights (unit: pallet-volume fractions, lower is better)
     w_void: float = 1.0         # empty volume trapped below the open pallet's surface
@@ -327,6 +328,7 @@ class LookaheadPolicy:
     def __init__(self, hl_config, config=None):
         self.cfg = config or LookaheadConfig()
         self.rule = RulePolicy(hl_config)
+        self.hl = hl_config
         self.stats = SearchStats()
         self.last_placements = {}
 
@@ -393,7 +395,10 @@ class LookaheadPolicy:
         the pinned candidates are kept in ``self.last_placements``."""
         cfg = self.cfg
         start = time.perf_counter()
-        deadline = start + cfg.time_budget_s if cfg.time_budget_s > 0 else None
+        budget = cfg.time_budget_s
+        if cfg.time_budget_ratio > 0:
+            budget = cfg.time_budget_ratio * self.hl.timing.place_time_s
+        deadline = start + budget if budget > 0 else None
         end = world.next_arrival + cfg.horizon
         if window_end is not None:  # real time: only the boxes that have reached the camera
             end = min(end, window_end)

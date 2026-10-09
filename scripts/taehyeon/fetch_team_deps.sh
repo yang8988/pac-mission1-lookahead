@@ -8,21 +8,22 @@
 #   ahead_dataset_generator    <- jaesung  (feature/jaesung-dataset-generator)
 #   pac_simulation             <- jaesung  (feature/jaesung-physics-simulator)
 # If a branch is missing, the package is searched in the other branches.
-# The branches live in the team repository (TEAM_REPO_URL, default
-# yang8988/pac-mission1-shared); they are fetched as refs/remotes/team/*.
+# Source: the team monorepo (TEAM_REPO_URL, default dlwotjd1289-cloud/dlwotjd1289-cloud,
+# branch main), fetched as refs/remotes/team/main. pac-mission1-shared is no longer used.
 #
 # Usage: scripts/taehyeon/fetch_team_deps.sh [PLANNER_REF] [DATASET_REF] [SIM_REF]
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-TEAM_REPO_URL="${TEAM_REPO_URL:-https://github.com/yang8988/pac-mission1-shared.git}"
-PLANNER_REF="${1:-team/feature/donghan-placement-planner}"
-DATASET_REF="${2:-team/feature/jaesung-dataset-generator}"
-SIM_REF="${3:-team/feature/jaesung-physics-simulator}"
+TEAM_REPO_URL="${TEAM_REPO_URL:-https://github.com/dlwotjd1289-cloud/dlwotjd1289-cloud.git}"
+TEAM_BRANCH="${TEAM_BRANCH:-main}"
+PLANNER_REF="${1:-team/$TEAM_BRANCH}"
+DATASET_REF="${2:-team/$TEAM_BRANCH}"
+SIM_REF="${3:-team/$TEAM_BRANCH}"
 OUT="$ROOT/.deps/team"
 
 cd "$ROOT"
 git fetch --quiet --depth 1 "$TEAM_REPO_URL" \
-  "+refs/heads/feature/*:refs/remotes/team/feature/*" 2>/dev/null \
+  "+refs/heads/$TEAM_BRANCH:refs/remotes/team/$TEAM_BRANCH" 2>/dev/null \
   || echo "warning: could not fetch $TEAM_REPO_URL (using refs already present)" >&2
 
 rm -rf "$OUT"

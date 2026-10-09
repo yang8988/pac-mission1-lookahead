@@ -23,8 +23,11 @@ class PalletSection:
     # Pallet footprints (x, y) m to cover pallet-spec changes, assigned round
     # robin inside each scenario family. Empty = keep the generator's pallet.
     sizes_m: tuple = ((1.1, 1.1), (1.2, 1.0), (1.2, 0.8))
+    # cargo height above the deck; 0 = from the scenario data
+    max_stack_height_m: float = 0.0
 
     def __post_init__(self):
+        _nonneg(self.max_stack_height_m, "max_stack_height_m")
         sizes = tuple(tuple(float(v) for v in xy) for xy in self.sizes_m)
         for xy in sizes:
             if len(xy) != 2 or min(xy) <= 0 or not all(math.isfinite(v) for v in xy):
@@ -35,13 +38,32 @@ class PalletSection:
             raise ValueError("default_max_load_kg must be positive")
 
 
+PACKAGING = ("corrugated", "rigid_crate", "no_stack")
+
+
 @dataclass(frozen=True)
 class CatalogSection:
     nominal_weight: str = "midpoint"
+    # top-load strength model per packaging type (5-2 crush check):
+    #   corrugated  -> McKee formula from the footprint, / safety factor
+    #   rigid_crate -> rated top load (rated_top_load_n per SKU, else default_rated_top_load_n)
+    #   no_stack    -> nothing may rest on it (bags, fragile goods)
+    packaging_default: str = "corrugated"
+    packaging: dict = None              # {sku_id: type}
+    rated_top_load_n: dict = None       # {sku_id: N} for rigid_crate
+    default_rated_top_load_n: float = 2000.0
 
     def __post_init__(self):
         if self.nominal_weight not in ("midpoint", "max"):
             raise ValueError("nominal_weight must be midpoint or max")
+        object.__setattr__(self, "packaging", dict(self.packaging or {}))
+        object.__setattr__(self, "rated_top_load_n", {k: float(v) for k, v in (self.rated_top_load_n or {}).items()})
+        for kind in [self.packaging_default, *self.packaging.values()]:
+            if kind not in PACKAGING:
+                raise ValueError(f"packaging must be one of {PACKAGING}")
+
+    def packaging_of(self, sku_id):
+        return self.packaging.get(sku_id, self.packaging_default)
 
 
 @dataclass(frozen=True)

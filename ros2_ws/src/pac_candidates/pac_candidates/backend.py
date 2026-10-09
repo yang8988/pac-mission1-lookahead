@@ -237,7 +237,10 @@ class CandidateBackend:
                 def check(raw):
                     return raw.proxy_ok
 
-            kept, _ = deduplicate(raws, gen.dedup_distance_m, model.height_tol, check)
+            dist = gen.dedup_distance_m
+            if gen.dedup_distance_ratio > 0:
+                dist = gen.dedup_distance_ratio * min(box.size.x, box.size.y)
+            kept, _ = deduplicate(raws, dist, model.height_tol, check)
         if gen.order == "likely_valid_first":
             # Stable: priority order inside each group. Consumers that only
             # look at the first N candidates (e.g. 5-3 inventory probes) then
