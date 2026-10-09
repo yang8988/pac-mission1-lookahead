@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>pac_highlevel</name>
+  <version>0.1.0</version>
+  <description>AHEAD stage 4 high-level action selection: PLACE_CURRENT / BUFFER_CURRENT / RETRIEVE_BUFFER(i) learned with MaskablePPO, PALLET_CLOSE / PARTIAL_REPACK kept as rules, infeasible actions masked.</description>
+  <maintainer email="taehyeon@example.com">taehyeon</maintainer>
+  <license>Proprietary</license>
+  <exec_depend>pac_common</exec_depend>
+  <exec_depend>pac_candidates</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <test_depend>python3-pytest</test_depend>
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

@@ -1,0 +1,48 @@
+# Stage 4 high-level action selection (taehyeon). See docs/taehyeon/highlevel.md
+schema_version: 1
+highlevel:
+  buffer:
+    slots: 4                 # buffer shelves on both sides of the pallet, one box each
+    travel_time_s: []        # per slot; empty = base + extra * (slot // 2)
+    base_travel_time_s: 4.0
+    per_slot_extra_s: 1.0
+  timing:
+    place_time_s: 8.0        # assumed HDR50-22 pick-and-place cycle
+    pallet_change_time_s: 60.0
+    repack_move_time_s: 12.0
+  reward:                    # unit: pallet-volume fractions (same as donghan's future value)
+    volume_weight: 1.0
+    close_waste_weight: 1.0  # - (1 - fill) per closed pallet  ==  minimise pallets used
+    time_weight: 0.0005      # per second of robot time
+    occupancy_weight: 0.002  # per occupied buffer slot per decision
+    ng_penalty: 0.05
+  rules:
+    good_support: 0.95
+    retrieve_margin_m: 0.02
+    max_buffer_age: 12
+  close:                     # PALLET_CLOSE stays a rule
+    fill_before_buffer: 0.30 # close a pallet this full instead of forcing the box into the buffer (0 = off)
+  repack:
+    enabled: true
+    max_moves: 2
+    max_nodes: 24
+    min_gain: 0.0
+  features:
+    value_provider: proxy    # proxy | donghan  (policy refuses to load on mismatch)
+    value_model_path: ""     # donghan: path of dual_head_ranker.json
+    order_list_known: true   # SKU types/sizes/weights/quantities known in advance, order not (mission brief)
+    heightmap_cell_m: 0.02
+  ppo:
+    hidden: [64, 64]
+    learning_rate: 0.0003
+    gamma: 0.995
+    gae_lambda: 0.95
+    clip_range: 0.2
+    entropy_coef: 0.01
+    value_coef: 0.5
+    max_grad_norm: 0.5
+    n_steps: 1024
+    batch_size: 128
+    n_epochs: 6
+    total_steps: 30000
+    seed: 0

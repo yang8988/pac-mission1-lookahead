@@ -1,0 +1,34 @@
+# Virtual data generator (taehyeon) -- replays jaesung's AHEAD scenarios through
+# stages 5-1/5-2 and writes planner scenes + candidate/mask labels.
+schema_version: 1
+virtual_data:
+  seed: 20261007
+  pallet:
+    # Generator's max_height_m (1.5) counts the pallet deck (0.15 m):
+    # usable stack height = 1.5 - 0.15 = 1.35 m (confirmed by taehyeon 2026-10-07).
+    height_limit_includes_pallet: true
+    default_max_load_kg: 1000.0      # generator max_load_kg is null
+    # pallet-spec change coverage: T11, KS T12 and a narrow 1.2 x 0.8 deck;
+    # round robin inside each scenario family. [] keeps the generator's pallet.
+    sizes_m: [[1.1, 1.1], [1.2, 1.0], [1.2, 0.8]]
+  catalog:
+    nominal_weight: midpoint          # SkuSpec.weight_kg for unseen boxes: midpoint | max
+  observation:                        # stage-2 measurement model (delta source)
+    dimension_noise_std_m: 0.001
+    dimension_noise_clip_m: 0.003
+    weight_noise_std_ratio: 0.01
+    uncertain_probability: 0.05       # boxes flagged in uncertain_box_ids
+    uncertain_dimension_noise_std_m: 0.004
+    uncertain_confidence: 0.6
+  episode:
+    policy: mixed                     # dblf | random | mixed | planner
+    epsilon: 0.3                      # mixed: chance of a random top-N valid pick
+    top_n_random: 5
+    scene_every: 1                    # write a planner scene every N steps
+    max_steps: 0                      # 0 = whole scenario
+  strength:                           # TRUE carton strength (hidden from the planner)
+    enabled: true
+    profiles: {strong: 1, nominal: 1, weak: 1, humid: 1, mixed: 1, extreme: 1}
+    assignment: round_robin           # round_robin (balanced) | random (by weight)
+    damage_factor: 0.25               # damaged top keeps 25 % of its strength
+    detect_probability: 0.8           # damaged boxes detected by inspection -> capacity override 0 N
