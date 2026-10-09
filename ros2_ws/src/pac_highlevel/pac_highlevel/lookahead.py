@@ -7,6 +7,15 @@ plays the copy to the end of that window and scores the final state with a
 hand-written score (lost pallet volume). The best first action is executed;
 the next box restarts the search (receding horizon).
 
+Placement branches (``place_candidates`` K > 1): PLACE_CURRENT and
+RETRIEVE_BUFFER(i) branch into up to K safe placements of that box (the DBLF
+choice first, then the next DBLF-ranked candidates that differ by at least
+``place_min_dist_m`` in position or by orientation), so the search also
+decides WHERE and HOW the box goes. Only the first decision branches; the
+default branches are scored first and the extra placements only while the
+time budget lasts. A chosen non-DBLF placement is pinned on the world's
+option cache, so ``world.step`` executes exactly that (5-2-valid) candidate.
+
 Two search modes:
   ``pilot``  after the first action every decision is taken by ``RulePolicy``
              (cheap: one rollout per first action).
@@ -29,6 +38,8 @@ Speed-ups (see docs/taehyeon/lookahead.md):
 
 from collections import Counter
 from dataclasses import dataclass, field, replace
+import copy
+import math
 import time
 
 from pac_common import BoxStatus
@@ -58,10 +69,13 @@ class LookaheadConfig:
     # is closed soon, so it costs about dead_share * (1 - fill)
     w_dead: float = 1.0
     dead_top_skus: int = 6      # order-list SKUs checked (largest remaining volume first)
+    # placement branches for PLACE / RETRIEVE in the first decision (1 = DBLF only)
+    place_candidates: int = 1
+    place_min_dist_m: float = 0.10  # alternatives closer than this (same yaw) count as the same spot
 
     def __post_init__(self):
-        if self.horizon < 0 or self.beam < 1:
-            raise ValueError("horizon must be >= 0 and beam >= 1")
+        if self.horizon < 0 or self.beam < 1 or self.place_candidates < 1:
+            raise ValueError("horizon must be >= 0, beam and place_candidates >= 1")
         if self.mode not in ("pilot", "beam"):
             raise ValueError("mode must be pilot or beam")
 
@@ -199,6 +213,59 @@ def _probe_boxes(node, cfg):
     return out
 
 
+def has_safe_spot(backend, box, state):
+    """True if 5-1 yields a 5-2-valid candidate (stops at the first one;
+    lowest candidates first since they pass most often)."""
+    gen = backend.generate_with_report(box, state)
+    for c in sorted(gen.candidates, key=lambda c: c.target_pose.z):
+        if backend.validate_constraints(box, c, state).success:
+            return True
+    return False
+
+
+def _dblf_key(c):
+    p = c.target_pose
+    return (round(p.z, 6), round(p.y, 6), round(p.x, 6), c.candidate_id)
+
+
+def placement_alternatives(world, box, default, k, min_dist):
+    """Up to ``k`` distinct safe placements of ``box``: ``default`` (the DBLF
+    choice) first, then DBLF-ranked candidates that differ by position
+    (>= min_dist in x/y or a different level) or by orientation."""
+    if default is None or k <= 1:
+        return [default]
+    valid = world.backend().candidate_set(box, world.state()).valid
+    picks = [default]
+    for c in sorted(valid, key=_dblf_key):
+        if len(picks) >= k:
+            break
+        p = c.target_pose
+        if all(
+            abs(p.yaw - q.target_pose.yaw) < 1e-6
+            and abs(p.z - q.target_pose.z) < 0.02
+            and math.hypot(p.x - q.target_pose.x, p.y - q.target_pose.y) < min_dist
+            for q in picks
+        ):
+            continue
+        picks.append(c)
+    return picks
+
+
+def pin_placement(world, index, candidate):
+    """Make the next ``world.step(index)`` place at ``candidate`` (must be one
+    of the 5-2-valid candidates of that box in the current state)."""
+    current, buffered = world.options()
+    if index == 0:
+        current = copy.copy(current)
+        current.candidate = candidate
+    else:
+        buffered = list(buffered)
+        opt = copy.copy(buffered[index - 2])
+        opt.candidate = candidate
+        buffered[index - 2] = opt
+    world._options = (current, buffered)
+
+
 def dead_share(node, cfg):
     """Volume share of the expected boxes with no safe spot on the open pallet."""
     probes = _probe_boxes(node, cfg)
@@ -211,7 +278,7 @@ def dead_share(node, cfg):
     for box, vol in probes:
         key = (box.size, round(box.weight_kg, 6), tuple(box.allowed_yaws_rad), box.box_id in node.uncertain)
         if key not in seen:
-            seen[key] = not backend.candidate_set(box, state).valid
+            seen[key] = not has_safe_spot(backend, box, state)
         dead += vol * seen[key]
     return dead / total
 
@@ -221,6 +288,7 @@ class SearchStats:
     decisions: int = 0
     searched: int = 0           # decisions with more than one feasible action
     changed: int = 0            # decisions where the search overrode the rule
+    moved: int = 0              # ... and placed somewhere else than DBLF
     expansions: int = 0         # simulated steps
     timeouts: int = 0
     seconds: list = field(default_factory=list)
@@ -231,6 +299,7 @@ class SearchStats:
             "decisions": self.decisions,
             "searched": self.searched,
             "changed": self.changed,
+            "moved": self.moved,
             "expansions": self.expansions,
             "timeouts": self.timeouts,
             "decision_s_mean": round(float(s.mean()), 3),
@@ -248,13 +317,16 @@ class LookaheadPolicy:
         self.cfg = config or LookaheadConfig()
         self.rule = RulePolicy(hl_config)
         self.stats = SearchStats()
+        self.last_placements = {}
 
     # -- search ---------------------------------------------------------
     def _deadline_passed(self, deadline):
         return deadline is not None and time.perf_counter() > deadline
 
-    def _step(self, node, index):
+    def _step(self, node, index, candidate=None):
         c = _child(node)
+        if candidate is not None:
+            pin_placement(c, index, candidate)
         c.step(index)
         self.stats.expansions += 1
         return c
@@ -285,17 +357,42 @@ class LookaheadPolicy:
             frontier = ranked[: self.cfg.beam]
         return best
 
+    def branches(self, world):
+        """First-decision branches: (action index, placement or None for the
+        world's own DBLF choice), default branches first."""
+        current, buffered = world.options()
+        default, extra = [], []
+        for k in (int(i) for i in np.flatnonzero(world.action_mask())):
+            default.append((k, None))
+            if k == 1 or self.cfg.place_candidates <= 1:
+                continue
+            if k == 0:
+                box, opt = world.current.box, current
+            else:
+                box, opt = world.buffer[k - 2].arrival.box, buffered[k - 2]
+            alts = placement_alternatives(world, box, opt.candidate, self.cfg.place_candidates,
+                                          self.cfg.place_min_dist_m)
+            extra += [(k, c) for c in alts[1:]]
+        return default + extra
+
     def scores(self, world):
-        """Score per feasible first action (index -> score)."""
+        """Score per first-decision branch ((index, candidate_id or None) -> score);
+        the pinned candidates are kept in ``self.last_placements``."""
         cfg = self.cfg
         start = time.perf_counter()
         deadline = start + cfg.time_budget_s if cfg.time_budget_s > 0 else None
         root = window_clone(world, world.next_arrival + cfg.horizon)
-        out = {}
-        for k in np.flatnonzero(world.action_mask()):
-            child = self._step(root, int(k))
-            run = self._pilot if cfg.mode == "pilot" else self._beam
-            out[int(k)] = run(child, root, deadline)
+        run = self._pilot if cfg.mode == "pilot" else self._beam
+        out, self.last_placements = {}, {}
+        for k, cand in self.branches(world):
+            if cand is not None and self._deadline_passed(deadline):
+                self.stats.timeouts += 1
+                break  # extra placements only while time remains
+            child = self._step(root, k, cand)
+            key = (k, None if cand is None else cand.candidate_id)
+            if cand is not None:
+                self.last_placements[key[1]] = cand
+            out[key] = run(child, root, deadline)
         return out
 
     def __call__(self, world):
@@ -308,12 +405,16 @@ class LookaheadPolicy:
             return rule_action
         self.stats.searched += 1
         scores = self.scores(world)
-        rule_index = to_index(rule_action)
-        best = min(scores, key=lambda k: (scores[k], k != rule_index))
+        rule_key = (to_index(rule_action), None)
+        best = min(scores, key=lambda b: (scores[b], b != rule_key))
         self.stats.seconds.append(time.perf_counter() - start)
-        if best != rule_index and scores[best] < scores[rule_index] - self.cfg.margin:
+        if best != rule_key and scores[best] < scores[rule_key] - self.cfg.margin:
             self.stats.changed += 1
-            return from_index(best, world.slots)
+            index, candidate_id = best
+            if candidate_id is not None:
+                self.stats.moved += 1
+                pin_placement(world, index, self.last_placements[candidate_id])
+            return from_index(index, world.slots)
         return rule_action
 
 
@@ -322,6 +423,9 @@ __all__ = [
     "LookaheadPolicy",
     "WindowWorld",
     "dead_share",
+    "has_safe_spot",
+    "pin_placement",
+    "placement_alternatives",
     "leaf_score",
     "load_lookahead_config",
     "lookahead_config_from_dict",

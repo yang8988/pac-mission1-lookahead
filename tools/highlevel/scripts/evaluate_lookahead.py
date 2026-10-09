@@ -89,6 +89,7 @@ def summarize(rows, name):
             "decision_s_p95_max": max(x["decision_s_p95"] for x in s),
             "decision_s_max": max(x["decision_s_max"] for x in s),
             "changed_share": round(sum(x["changed"] for x in s) / max(1, dec), 3),
+            "moved_share": round(sum(x.get("moved", 0) for x in s) / max(1, dec), 3),
             "timeouts": sum(x["timeouts"] for x in s),
         }
     return out
