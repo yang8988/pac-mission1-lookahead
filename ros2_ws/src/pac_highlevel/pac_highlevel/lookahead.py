@@ -32,8 +32,9 @@ Speed-ups (see docs/taehyeon/lookahead.md):
   * shared backend cache: 5-1/5-2 results are cached per pallet snapshot, so
     siblings with the same pallet (e.g. after BUFFER_CURRENT) reuse them,
   * duplicate states merged in beam mode,
-  * time budget per decision: when it runs out, unfinished branches are scored
-    as they are; with nothing scored the rule action is returned.
+  * time budget per decision: the rule's branch is scored first; when the
+    budget runs out the running branch is scored as it is and the remaining
+    branches are skipped (only scored branches can be chosen).
 """
 
 from collections import Counter
@@ -357,9 +358,10 @@ class LookaheadPolicy:
             frontier = ranked[: self.cfg.beam]
         return best
 
-    def branches(self, world):
+    def branches(self, world, first=None):
         """First-decision branches: (action index, placement or None for the
-        world's own DBLF choice), default branches first."""
+        world's own DBLF choice); action ``first`` (the rule's) leads, then the
+        other default branches, then the extra placements."""
         current, buffered = world.options()
         default, extra = [], []
         for k in (int(i) for i in np.flatnonzero(world.action_mask())):
@@ -373,9 +375,10 @@ class LookaheadPolicy:
             alts = placement_alternatives(world, box, opt.candidate, self.cfg.place_candidates,
                                           self.cfg.place_min_dist_m)
             extra += [(k, c) for c in alts[1:]]
+        default.sort(key=lambda b: b[0] != first)
         return default + extra
 
-    def scores(self, world):
+    def scores(self, world, first=None):
         """Score per first-decision branch ((index, candidate_id or None) -> score);
         the pinned candidates are kept in ``self.last_placements``."""
         cfg = self.cfg
@@ -384,10 +387,10 @@ class LookaheadPolicy:
         root = window_clone(world, world.next_arrival + cfg.horizon)
         run = self._pilot if cfg.mode == "pilot" else self._beam
         out, self.last_placements = {}, {}
-        for k, cand in self.branches(world):
-            if cand is not None and self._deadline_passed(deadline):
+        for k, cand in self.branches(world, first):
+            if out and self._deadline_passed(deadline):
                 self.stats.timeouts += 1
-                break  # extra placements only while time remains
+                break  # the rule's branch is always scored; the rest only while time remains
             child = self._step(root, k, cand)
             key = (k, None if cand is None else cand.candidate_id)
             if cand is not None:
@@ -404,7 +407,7 @@ class LookaheadPolicy:
             self.stats.seconds.append(time.perf_counter() - start)
             return rule_action
         self.stats.searched += 1
-        scores = self.scores(world)
+        scores = self.scores(world, first=to_index(rule_action))
         rule_key = (to_index(rule_action), None)
         best = min(scores, key=lambda b: (scores[b], b != rule_key))
         self.stats.seconds.append(time.perf_counter() - start)
