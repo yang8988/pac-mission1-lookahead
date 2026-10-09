@@ -58,8 +58,8 @@ class RuleConfig:
     retrieve_margin_m: float = 0.02  # buffered box preferred if its top is this much lower
     max_buffer_age: int = 12  # decisions; older buffered boxes are retrieved first
     # scale-free forms (used when > 0, so the rule holds for any box/buffer size):
-    retrieve_margin_ratio: float = 0.0  # x height of the current box
-    max_buffer_age_per_slot: float = 0.0  # x buffer slots
+    retrieve_margin_ratio: float = 0.15  # x height of the current box
+    max_buffer_age_per_slot: float = 3.0  # x buffer slots
 
     def margin_for(self, box):
         if self.retrieve_margin_ratio > 0:
@@ -84,8 +84,11 @@ class CloseConfig:
     # dependent). "dead": close when at least ``dead_share`` of the expected
     # volume (current + buffer boxes + the order list's main SKUs) has no safe
     # spot on this pallet any more -- a judgement, not a tuned fill level.
-    mode: str = "fill"
-    dead_share: float = 0.5
+    mode: str = "dead"
+    dead_share: float = 0.95
+    # boxes on the conveyor after the current one that the camera sees (exact
+    # size/weight/order): counted in the dead share together with the order list
+    visible_boxes: int = 5
 
 
 @dataclass(frozen=True)

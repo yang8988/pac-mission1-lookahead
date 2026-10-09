@@ -99,7 +99,10 @@ def apply_environment(env, cand=None, vcfg=None, hl=None, la=None):
             timing = replace(timing, pallet_change_time_s=env.pallet_change_s)
         if env.repack_move_s > 0:
             timing = replace(timing, repack_move_time_s=env.repack_move_s)
-        hl = replace(hl, buffer=buffer, timing=timing)
+        close = hl.close
+        if env.visible_boxes >= 0:
+            close = replace(close, visible_boxes=env.visible_boxes)
+        hl = replace(hl, buffer=buffer, timing=timing, close=close)
     if la is not None:
         if env.visible_boxes >= 0:
             la = replace(la, horizon=env.visible_boxes)

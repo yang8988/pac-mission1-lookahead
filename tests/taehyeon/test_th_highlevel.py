@@ -367,15 +367,33 @@ def test_close_before_buffer_rule():
     # cannot go on top. Rule on: close instead of buffering it.
     boxes = [box(i, weight=5.0) for i in range(3)] + [box(3, weight=20.0, sku="H")]
     no_repack = replace(HighLevelConfig().repack, enabled=False)
-    off = world(boxes, slots=2, repack=no_repack, close=replace(HighLevelConfig().close, fill_before_buffer=0.0))
+    fill_mode = replace(HighLevelConfig().close, mode="fill")
+    off = world(boxes, slots=2, repack=no_repack, close=replace(fill_mode, fill_before_buffer=0.0))
     for _ in range(3):
         off.step(HighLevelAction(ActionType.PLACE_CURRENT))
     assert off.action_mask().tolist() == [False, True, False, False]  # must buffer
-    on = world(boxes, slots=2, repack=no_repack, close=replace(HighLevelConfig().close, fill_before_buffer=0.3))
+    on = world(boxes, slots=2, repack=no_repack, close=replace(fill_mode, fill_before_buffer=0.3))
     for _ in range(3):
         on.step(HighLevelAction(ActionType.PLACE_CURRENT))
     assert on.counts["PALLET_CLOSE"] == 1 and on.placed == []
     assert on.action_mask()[0]  # heavy box goes on the new pallet directly
+
+
+def test_dead_pallet_close_rule():
+    # same cell: the only box still expected (the heavy one) has no safe spot,
+    # so the whole expected volume is "dead" -> close (no fill threshold involved)
+    boxes = [box(i, weight=5.0) for i in range(3)] + [box(3, weight=20.0, sku="H")]
+    no_repack = replace(HighLevelConfig().repack, enabled=False)
+    dead = world(boxes, slots=2, repack=no_repack, close=replace(HighLevelConfig().close, mode="dead"))
+    for _ in range(3):
+        dead.step(HighLevelAction(ActionType.PLACE_CURRENT))
+    assert dead.counts["PALLET_CLOSE"] == 1 and dead.action_mask()[0]
+    # a stricter share than what is dead keeps the pallet open (box must be buffered)
+    keep = world(boxes, slots=2, repack=no_repack,
+                 close=replace(HighLevelConfig().close, mode="dead", dead_share=1.01))
+    for _ in range(3):
+        keep.step(HighLevelAction(ActionType.PLACE_CURRENT))
+    assert keep.counts["PALLET_CLOSE"] == 0
 
 
 def test_order_list_known_flag_controls_remaining_counts():

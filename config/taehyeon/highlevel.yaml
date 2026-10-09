@@ -20,8 +20,17 @@ highlevel:
     good_support: 0.95
     retrieve_margin_m: 0.02
     max_buffer_age: 12
+    # scale-free forms (used instead of the two above when > 0)
+    retrieve_margin_ratio: 0.15     # x height of the current box (0.02 m at a 0.13 m box)
+    max_buffer_age_per_slot: 3.0    # x buffer slots (12 with 4 slots)
   close:                     # PALLET_CLOSE stays a rule
-    fill_before_buffer: 0.30 # close a pallet this full instead of forcing the box into the buffer (0 = off)
+    fill_before_buffer: 0.30 # mode fill: close a pallet this full instead of forcing the box into the buffer (0 = off)
+    # mode dead (default 2026-10-09): close only when at least dead_share of the expected
+    # volume (current + buffer + visible conveyor boxes + order-list SKUs) has no safe spot
+    # left on this pallet. val (12 ep.): fill excl. last pallet 37.0 % (fill 0.30) -> 41.5 %
+    mode: dead
+    dead_share: 0.95
+    visible_boxes: 5         # overwritten by config/environment.yaml (conveyor.visible_boxes)
   repack:
     enabled: true
     max_moves: 2

@@ -140,6 +140,14 @@ class TimedRun:
             before_t = w.time_s
             before = {p.box_id: p.pose for p in w.placed}
             label = action.label()
+            # placement planned for this step, kept here because a pallet
+            # close inside w.step() empties the pallet before we can read it
+            planned = None
+            if label != "BUFFER_CURRENT":
+                cur_opt, buf_opts = w.options()
+                opt = cur_opt if label == "PLACE_CURRENT" else buf_opts[action.slot]
+                if opt is not None and opt.candidate is not None:
+                    planned = opt.candidate.target_pose
             box = None
             if label == "PLACE_CURRENT" or label == "BUFFER_CURRENT":
                 box = cur.box
@@ -151,6 +159,9 @@ class TimedRun:
             placed_now = [p for p in w.placed if p.box_id not in before]
             moved = [p.box_id for p in w.placed if p.box_id in before and p.pose != before[p.box_id]]
             target = None
+            if planned is not None and box is not None:
+                dx, dy, dz = rotated_dims(box.size, planned.yaw)
+                target = {"min": [planned.x, planned.y, planned.z], "dims": [dx, dy, dz], "yaw": planned.yaw}
             for p in placed_now:
                 if box is not None and p.box_id == box.box_id:
                     dx, dy, dz = rotated_dims(p.size, p.pose.yaw)

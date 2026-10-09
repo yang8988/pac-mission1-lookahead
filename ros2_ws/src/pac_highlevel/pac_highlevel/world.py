@@ -453,8 +453,9 @@ class PalletizingWorld:
         if close.mode == "dead":
             from .lookahead import LookaheadConfig, dead_share, window_clone
 
-            # current + buffer boxes + order list only (no unseen arrivals)
-            return dead_share(window_clone(self, self.next_arrival), LookaheadConfig()) >= close.dead_share
+            # current + buffer + the visible conveyor boxes + order list (no unseen arrivals)
+            view = window_clone(self, self.next_arrival + close.visible_boxes)
+            return dead_share(view, LookaheadConfig()) >= close.dead_share
         threshold = close.fill_before_buffer
         return threshold > 0.0 and self.fill() >= threshold
 

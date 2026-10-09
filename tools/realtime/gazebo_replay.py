@@ -57,6 +57,7 @@ from rt_timeline import (  # noqa: E402
 
 JOINTS = ["j1", "j2", "j3", "j4", "j5", "j6"]
 DEFAULT_PICK_WORLD = (0.0, 1.2, 0.9)   # conveyor_main end under the pick point (robot_check_gazebo.yaml)
+GAZEBO_DECK_XY = (1.20, 1.00)        # pallet_main in ahead_workcell_v2_hdp160.sdf
 CONVEYOR_GAP_M = 0.08
 CONVEYOR_PREFIX = "conv_"
 
@@ -150,6 +151,16 @@ def conveyor_layout(rows, pick, gap=CONVEYOR_GAP_M):
         out[CONVEYOR_PREFIX + row["box_id"]] = ((sx, sy, sz), (round(x, 4), pick[1], round(pick[2] + sz / 2, 4), 0.0),
                                                 float(row.get("weight", 1.0)))
     return out
+
+
+def deck_warning(pallet_size, deck=GAZEBO_DECK_XY, tol=1e-3):
+    """Warning text when the timeline pallet is not the Gazebo deck, else ``None``."""
+    x, y = float(pallet_size[0]), float(pallet_size[1])
+    if abs(x - deck[0]) <= tol and abs(y - deck[1]) <= tol:
+        return None
+    over = x > deck[0] + tol or y > deck[1] + tol
+    return (f"timeline pallet {x:.3f} x {y:.3f} m differs from the Gazebo deck {deck[0]:.2f} x {deck[1]:.2f} m; "
+            "boxes are centred on it" + (" and overhang it" if over else ""))
 
 
 def static_sdf(gd, name, size, mass):
@@ -451,6 +462,10 @@ def main(argv=None):  # pragma: no cover - ROS path; --dry-run is exercised by h
     pallet = events[0]["pallet_size"] if events else (1.2, 1.0, 1.35)
     core = GazeboReplayCore(gd, robot, pallet, speed_scale=args.motion_speed, conveyor=not args.no_conveyor)
     print(summary_text(timeline))
+    for size in sorted({tuple(e["pallet_size"]) for e in events}):
+        warning = deck_warning(size)
+        if warning:
+            print(f"WARNING: {warning}")
     print(f"robot config {config}; pallet {pallet} centred at world {core.cell.pallet_center_xy}; "
           f"pick point {core.pick}")
     io = PrintIO() if args.dry_run else RosIO(args.world, args.trajectory_topic)
