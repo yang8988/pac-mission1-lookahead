@@ -212,3 +212,17 @@ def test_timed_run_plans_during_motion_and_respects_the_conveyor():
     # slow conveyor: the robot has to wait for boxes, and the planner sees short windows
     assert out["robot_idle_s"] > 0
     assert any(len(e["visible"]) < 3 for e in ev)
+
+
+def test_dead_share_counts_each_expected_box_once():
+    """Visible conveyor boxes are still in the order list's remaining counts;
+    they must be counted once (as visible boxes), not again via the order list."""
+    from pac_highlevel.lookahead import _probe_boxes
+
+    w = world(mixed_boxes(12))
+    node = window_clone(w, w.next_arrival + 3)
+    probes = _probe_boxes(node, LookaheadConfig(dead_top_skus=99))
+    total = sum(v for _, v in probes)
+    unplaced = w.arrivals[w.next_arrival - 1:]  # current box + everything still to come
+    expected = sum(a.box.size.x * a.box.size.y * a.box.size.z for a in unplaced)
+    assert abs(total - expected) < 1e-9

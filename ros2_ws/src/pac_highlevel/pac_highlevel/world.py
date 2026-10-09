@@ -455,7 +455,7 @@ class PalletizingWorld:
 
             # current + buffer + the visible conveyor boxes + order list (no unseen arrivals)
             view = window_clone(self, self.next_arrival + close.visible_boxes)
-            return dead_share(view, LookaheadConfig()) >= close.dead_share
+            return dead_share(view, LookaheadConfig(dead_order_weight=close.order_weight)) >= close.dead_share
         threshold = close.fill_before_buffer
         return threshold > 0.0 and self.fill() >= threshold
 

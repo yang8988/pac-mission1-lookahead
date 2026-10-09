@@ -26,10 +26,12 @@ highlevel:
   close:                     # PALLET_CLOSE stays a rule
     fill_before_buffer: 0.30 # mode fill: close a pallet this full instead of forcing the box into the buffer (0 = off)
     # mode dead (default 2026-10-09): close only when at least dead_share of the expected
-    # volume (current + buffer + visible conveyor boxes + order-list SKUs) has no safe spot
-    # left on this pallet. val (12 ep.): fill excl. last pallet 37.0 % (fill 0.30) -> 41.5 %
+    # volume (current + buffer + visible conveyor boxes + order-list SKUs, each box counted
+    # once) has no safe spot left on this pallet. 1.0 = "none of the expected boxes fits".
+    # val (12 ep., Rule + flat layers): fill excl. last pallet 37.0 % (fill 0.30) -> 40.6 %
     mode: dead
-    dead_share: 0.95
+    dead_share: 1.0
+    order_weight: 1.0        # weight of the unseen order list vs the boxes actually seen
     visible_boxes: 5         # overwritten by config/environment.yaml (conveyor.visible_boxes)
   repack:
     enabled: true

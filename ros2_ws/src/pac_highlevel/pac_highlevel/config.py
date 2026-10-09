@@ -85,10 +85,13 @@ class CloseConfig:
     # volume (current + buffer boxes + the order list's main SKUs) has no safe
     # spot on this pallet any more -- a judgement, not a tuned fill level.
     mode: str = "dead"
-    dead_share: float = 0.95
+    dead_share: float = 1.0
     # boxes on the conveyor after the current one that the camera sees (exact
     # size/weight/order): counted in the dead share together with the order list
     visible_boxes: int = 5
+    # weight of the not-yet-seen order list against the boxes actually seen
+    # (current, buffer, visible): nearer boxes matter more
+    order_weight: float = 1.0
 
 
 @dataclass(frozen=True)

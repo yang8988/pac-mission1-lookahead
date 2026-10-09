@@ -71,6 +71,7 @@ class LookaheadConfig:
     # is closed soon, so it costs about dead_share * (1 - fill)
     w_dead: float = 1.0
     dead_top_skus: int = 6      # order-list SKUs checked (largest remaining volume first)
+    dead_order_weight: float = 1.0  # weight of the order-list volume vs the boxes actually seen
     # placement branches for PLACE / RETRIEVE in the first decision (1 = DBLF only)
     place_candidates: int = 1
     place_min_dist_m: float = 0.10  # alternatives closer than this (same yaw) count as the same spot
@@ -188,7 +189,11 @@ def leaf_score(node, root, cfg):
 
 def _probe_boxes(node, cfg):
     """(box, volume weight) to test: buffer and window boxes as they are,
-    plus the order list's largest-volume SKUs (types and counts only)."""
+    plus the order list's largest-volume SKUs (types and counts only).
+
+    The window boxes have not been picked yet, so they are still in the order
+    list's remaining counts; they are taken out there so that no box is
+    counted twice (the current and buffered boxes are already out)."""
     out, template = [], None
     for e in node.buffer:
         if e is not None:
@@ -197,13 +202,16 @@ def _probe_boxes(node, cfg):
     if node.current is not None:
         out.append((node.current.box, box_volume(node.current.box.size)))
         template = template or node.current.box
+    in_window = Counter()
     for a in node.arrivals[node.next_arrival:]:
         out.append((a.box, box_volume(a.box.size)))
+        in_window[a.box.sku_id] += 1
         template = template or a.box
     if template is None and node.placed:
         template = node._box_of(node.placed[0].box_id)
     unseen = []
     for sku, n in node.remaining_by_sku().items():
+        n -= in_window[sku]
         spec = node.catalog.get(sku)
         if spec is not None and n > 0:
             unseen.append((n * box_volume(spec.size), spec))
@@ -214,7 +222,7 @@ def _probe_boxes(node, cfg):
         probe = replace(template, box_id=f"PROBE-{spec.sku_id}", sku_id=spec.sku_id, size=spec.size,
                         weight_kg=spec.weight_kg, allowed_yaws_rad=spec.allowed_yaws_rad,
                         status=BoxStatus.READY_FOR_PICK)
-        out.append((probe, vol))
+        out.append((probe, vol * cfg.dead_order_weight))
     return out
 
 
