@@ -1,0 +1,2587 @@
+{
+ "split": "val",
+ "episodes": 36,
+ "seed": 4242,
+ "variants": {
+  "N3": {
+   "horizon": 3
+  },
+  "N5": {
+   "horizon": 5
+  },
+  "N3d05": {
+   "horizon": 3,
+   "w_dead": 0.5
+  }
+ },
+ "results": {
+  "rule": {
+   "pallets_mean": 4.159,
+   "fill_mean": 0.2446,
+   "robot_time_s_mean": 1147.1,
+   "ng_mean": 0.0,
+   "safety_issues": 0
+  },
+  "N3": {
+   "pallets_mean": 3.695,
+   "fill_mean": 0.2714,
+   "robot_time_s_mean": 1115.3,
+   "ng_mean": 0.0,
+   "safety_issues": 0,
+   "vs_rule": {
+    "pallets_diff_mean": -0.464,
+    "ci95": [
+     -0.6167,
+     -0.3114
+    ],
+    "better": 30,
+    "equal": 1,
+    "worse": 5,
+    "sign_test_p": 0.0
+   },
+   "search": {
+    "decision_s_mean": 0.5,
+    "decision_s_p95_max": 2.861,
+    "decision_s_max": 8.997,
+    "changed_share": 0.128,
+    "timeouts": 0
+   }
+  },
+  "N5": {
+   "pallets_mean": 3.6655,
+   "fill_mean": 0.2729,
+   "robot_time_s_mean": 1097.8,
+   "ng_mean": 0.0,
+   "safety_issues": 0,
+   "vs_rule": {
+    "pallets_diff_mean": -0.4936,
+    "ci95": [
+     -0.6329,
+     -0.3543
+    ],
+    "better": 32,
+    "equal": 2,
+    "worse": 2,
+    "sign_test_p": 0.0
+   },
+   "search": {
+    "decision_s_mean": 0.7,
+    "decision_s_p95_max": 6.421,
+    "decision_s_max": 15.507,
+    "changed_share": 0.124,
+    "timeouts": 0
+   }
+  },
+  "N3d05": {
+   "pallets_mean": 3.7318,
+   "fill_mean": 0.2706,
+   "robot_time_s_mean": 1121.4,
+   "ng_mean": 0.0,
+   "safety_issues": 0,
+   "vs_rule": {
+    "pallets_diff_mean": -0.4272,
+    "ci95": [
+     -0.5828,
+     -0.2716
+    ],
+    "better": 28,
+    "equal": 1,
+    "worse": 7,
+    "sign_test_p": 0.0005
+   },
+   "search": {
+    "decision_s_mean": 0.525,
+    "decision_s_p95_max": 4.439,
+    "decision_s_max": 10.524,
+    "changed_share": 0.13,
+    "timeouts": 0
+   }
+  }
+ },
+ "rows": [
+  {
+   "episode": 0,
+   "rule": {
+    "pallet_equivalents": 4.184210205646297,
+    "fill_per_pallet_used": 0.2296909523124691,
+    "time_s": 1172.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 8.7
+   },
+   "N3": {
+    "pallet_equivalents": 4.184855076572222,
+    "fill_per_pallet_used": 0.22969095231246908,
+    "time_s": 1140.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 69.8,
+    "search": {
+     "decisions": 111,
+     "searched": 96,
+     "changed": 14,
+     "expansions": 1893,
+     "timeouts": 0,
+     "decision_s_mean": 0.573,
+     "decision_s_p95": 1.705,
+     "decision_s_max": 2.091
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.3373895717858026,
+    "fill_per_pallet_used": 0.28711369039058643,
+    "time_s": 1120.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 73.4,
+    "search": {
+     "decisions": 113,
+     "searched": 99,
+     "changed": 19,
+     "expansions": 2293,
+     "timeouts": 0,
+     "decision_s_mean": 0.639,
+     "decision_s_p95": 1.63,
+     "decision_s_max": 5.332
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.246323106387037,
+    "fill_per_pallet_used": 0.2296909523124691,
+    "time_s": 1168.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 66.4,
+    "search": {
+     "decisions": 114,
+     "searched": 96,
+     "changed": 14,
+     "expansions": 1871,
+     "timeouts": 0,
+     "decision_s_mean": 0.536,
+     "decision_s_p95": 1.574,
+     "decision_s_max": 1.89
+    }
+   }
+  },
+  {
+   "episode": 1,
+   "rule": {
+    "pallet_equivalents": 5.139245974612654,
+    "fill_per_pallet_used": 0.29384460655992806,
+    "time_s": 1186.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 4.0
+   },
+   "N3": {
+    "pallet_equivalents": 5.047866564583333,
+    "fill_per_pallet_used": 0.29384460655992806,
+    "time_s": 1156.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 30.6,
+    "search": {
+     "decisions": 106,
+     "searched": 99,
+     "changed": 18,
+     "expansions": 1485,
+     "timeouts": 0,
+     "decision_s_mean": 0.276,
+     "decision_s_p95": 0.703,
+     "decision_s_max": 0.914
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 5.077735282584877,
+    "fill_per_pallet_used": 0.293844606559928,
+    "time_s": 1156.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 28.5,
+    "search": {
+     "decisions": 106,
+     "searched": 102,
+     "changed": 14,
+     "expansions": 2045,
+     "timeouts": 0,
+     "decision_s_mean": 0.264,
+     "decision_s_p95": 0.702,
+     "decision_s_max": 0.901
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.259105247158179,
+    "fill_per_pallet_used": 0.3526135278719136,
+    "time_s": 1072.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 29.5,
+    "search": {
+     "decisions": 103,
+     "searched": 99,
+     "changed": 15,
+     "expansions": 1470,
+     "timeouts": 0,
+     "decision_s_mean": 0.282,
+     "decision_s_p95": 0.657,
+     "decision_s_max": 0.925
+    }
+   }
+  },
+  {
+   "episode": 2,
+   "rule": {
+    "pallet_equivalents": 4.34513709958395,
+    "fill_per_pallet_used": 0.25586799170802466,
+    "time_s": 1182.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 10.4
+   },
+   "N3": {
+    "pallet_equivalents": 4.213996962372839,
+    "fill_per_pallet_used": 0.25586799170802466,
+    "time_s": 1160.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 88.2,
+    "search": {
+     "decisions": 113,
+     "searched": 100,
+     "changed": 20,
+     "expansions": 1854,
+     "timeouts": 0,
+     "decision_s_mean": 0.722,
+     "decision_s_p95": 2.415,
+     "decision_s_max": 3.222
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.213996962372839,
+    "fill_per_pallet_used": 0.25586799170802466,
+    "time_s": 1182.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 131.9,
+    "search": {
+     "decisions": 115,
+     "searched": 100,
+     "changed": 14,
+     "expansions": 2678,
+     "timeouts": 0,
+     "decision_s_mean": 1.128,
+     "decision_s_p95": 2.993,
+     "decision_s_max": 8.695
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.245539136098765,
+    "fill_per_pallet_used": 0.25586799170802466,
+    "time_s": 1226.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 96.3,
+    "search": {
+     "decisions": 119,
+     "searched": 103,
+     "changed": 18,
+     "expansions": 1923,
+     "timeouts": 0,
+     "decision_s_mean": 0.743,
+     "decision_s_p95": 2.77,
+     "decision_s_max": 3.34
+    }
+   }
+  },
+  {
+   "episode": 3,
+   "rule": {
+    "pallet_equivalents": 4.102145360967248,
+    "fill_per_pallet_used": 0.23869282993731247,
+    "time_s": 1118.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 5.3
+   },
+   "N3": {
+    "pallet_equivalents": 3.2350407791564124,
+    "fill_per_pallet_used": 0.29836603742164053,
+    "time_s": 1070.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 48.6,
+    "search": {
+     "decisions": 107,
+     "searched": 98,
+     "changed": 8,
+     "expansions": 1293,
+     "timeouts": 0,
+     "decision_s_mean": 0.43,
+     "decision_s_p95": 1.539,
+     "decision_s_max": 2.738
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.2713049704058768,
+    "fill_per_pallet_used": 0.2983660374216406,
+    "time_s": 990.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 53.2,
+    "search": {
+     "decisions": 99,
+     "searched": 91,
+     "changed": 6,
+     "expansions": 1613,
+     "timeouts": 0,
+     "decision_s_mean": 0.514,
+     "decision_s_p95": 1.439,
+     "decision_s_max": 5.327
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.196999333916131,
+    "fill_per_pallet_used": 0.29836603742164053,
+    "time_s": 1056.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 52.7,
+    "search": {
+     "decisions": 107,
+     "searched": 102,
+     "changed": 10,
+     "expansions": 1492,
+     "timeouts": 0,
+     "decision_s_mean": 0.468,
+     "decision_s_p95": 1.659,
+     "decision_s_max": 2.826
+    }
+   }
+  },
+  {
+   "episode": 4,
+   "rule": {
+    "pallet_equivalents": 3.0529412798647075,
+    "fill_per_pallet_used": 0.2334533651939087,
+    "time_s": 1032.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 6.2
+   },
+   "N3": {
+    "pallet_equivalents": 3.1465200823164983,
+    "fill_per_pallet_used": 0.23345336519390872,
+    "time_s": 1066.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 65.7,
+    "search": {
+     "decisions": 108,
+     "searched": 96,
+     "changed": 6,
+     "expansions": 1301,
+     "timeouts": 0,
+     "decision_s_mean": 0.597,
+     "decision_s_p95": 1.33,
+     "decision_s_max": 6.338
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.0706621442007958,
+    "fill_per_pallet_used": 0.2334533651939087,
+    "time_s": 1040.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 85.4,
+    "search": {
+     "decisions": 105,
+     "searched": 92,
+     "changed": 15,
+     "expansions": 2014,
+     "timeouts": 0,
+     "decision_s_mean": 0.778,
+     "decision_s_p95": 2.193,
+     "decision_s_max": 5.951
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.0381008171900827,
+    "fill_per_pallet_used": 0.2334533651939087,
+    "time_s": 1078.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 109.7,
+    "search": {
+     "decisions": 107,
+     "searched": 95,
+     "changed": 13,
+     "expansions": 1428,
+     "timeouts": 0,
+     "decision_s_mean": 1.003,
+     "decision_s_p95": 4.439,
+     "decision_s_max": 8.06
+    }
+   }
+  },
+  {
+   "episode": 5,
+   "rule": {
+    "pallet_equivalents": 3.308698239769136,
+    "fill_per_pallet_used": 0.24841496603811725,
+    "time_s": 1108.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 8.2
+   },
+   "N3": {
+    "pallet_equivalents": 3.123549135567901,
+    "fill_per_pallet_used": 0.24841496603811727,
+    "time_s": 1136.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 80.6,
+    "search": {
+     "decisions": 116,
+     "searched": 104,
+     "changed": 15,
+     "expansions": 1875,
+     "timeouts": 0,
+     "decision_s_mean": 0.632,
+     "decision_s_p95": 1.989,
+     "decision_s_max": 2.5
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.2235887307925926,
+    "fill_per_pallet_used": 0.24841496603811725,
+    "time_s": 1142.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 125.1,
+    "search": {
+     "decisions": 118,
+     "searched": 104,
+     "changed": 18,
+     "expansions": 2590,
+     "timeouts": 0,
+     "decision_s_mean": 1.046,
+     "decision_s_p95": 2.56,
+     "decision_s_max": 8.528
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.185403609730864,
+    "fill_per_pallet_used": 0.24841496603811727,
+    "time_s": 1142.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 90.5,
+    "search": {
+     "decisions": 117,
+     "searched": 102,
+     "changed": 12,
+     "expansions": 1798,
+     "timeouts": 0,
+     "decision_s_mean": 0.723,
+     "decision_s_p95": 2.525,
+     "decision_s_max": 3.427
+    }
+   }
+  },
+  {
+   "episode": 6,
+   "rule": {
+    "pallet_equivalents": 4.047756485833333,
+    "fill_per_pallet_used": 0.2081541997197531,
+    "time_s": 1284.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 10.5
+   },
+   "N3": {
+    "pallet_equivalents": 4.133403029258488,
+    "fill_per_pallet_used": 0.2081541997197531,
+    "time_s": 1136.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 50.4,
+    "search": {
+     "decisions": 110,
+     "searched": 96,
+     "changed": 19,
+     "expansions": 1586,
+     "timeouts": 0,
+     "decision_s_mean": 0.449,
+     "decision_s_p95": 1.364,
+     "decision_s_max": 2.215
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.047756485833333,
+    "fill_per_pallet_used": 0.20815419971975307,
+    "time_s": 1154.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 127.8,
+    "search": {
+     "decisions": 112,
+     "searched": 98,
+     "changed": 22,
+     "expansions": 2816,
+     "timeouts": 0,
+     "decision_s_mean": 1.122,
+     "decision_s_p95": 3.066,
+     "decision_s_max": 7.775
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.234031352314044,
+    "fill_per_pallet_used": 0.2081541997197531,
+    "time_s": 1218.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 67.9,
+    "search": {
+     "decisions": 116,
+     "searched": 96,
+     "changed": 17,
+     "expansions": 1729,
+     "timeouts": 0,
+     "decision_s_mean": 0.57,
+     "decision_s_p95": 1.338,
+     "decision_s_max": 6.484
+    }
+   }
+  },
+  {
+   "episode": 7,
+   "rule": {
+    "pallet_equivalents": 4.233659143146605,
+    "fill_per_pallet_used": 0.31520936293595675,
+    "time_s": 1130.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 4.6
+   },
+   "N3": {
+    "pallet_equivalents": 4.185971929307099,
+    "fill_per_pallet_used": 0.31520936293595675,
+    "time_s": 1104.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 31.3,
+    "search": {
+     "decisions": 106,
+     "searched": 98,
+     "changed": 19,
+     "expansions": 1387,
+     "timeouts": 0,
+     "decision_s_mean": 0.283,
+     "decision_s_p95": 0.643,
+     "decision_s_max": 1.179
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.154734256893518,
+    "fill_per_pallet_used": 0.31520936293595675,
+    "time_s": 1102.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 56.2,
+    "search": {
+     "decisions": 106,
+     "searched": 97,
+     "changed": 18,
+     "expansions": 2128,
+     "timeouts": 0,
+     "decision_s_mean": 0.52,
+     "decision_s_p95": 1.234,
+     "decision_s_max": 3.568
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.185971929307099,
+    "fill_per_pallet_used": 0.31520936293595675,
+    "time_s": 1096.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 31.3,
+    "search": {
+     "decisions": 105,
+     "searched": 96,
+     "changed": 21,
+     "expansions": 1332,
+     "timeouts": 0,
+     "decision_s_mean": 0.286,
+     "decision_s_p95": 0.643,
+     "decision_s_max": 0.975
+    }
+   }
+  },
+  {
+   "episode": 8,
+   "rule": {
+    "pallet_equivalents": 4.296233040045679,
+    "fill_per_pallet_used": 0.30114453882407405,
+    "time_s": 1066.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 5.5
+   },
+   "N3": {
+    "pallet_equivalents": 4.185117585089507,
+    "fill_per_pallet_used": 0.30114453882407405,
+    "time_s": 1080.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 35.2,
+    "search": {
+     "decisions": 103,
+     "searched": 95,
+     "changed": 10,
+     "expansions": 1218,
+     "timeouts": 0,
+     "decision_s_mean": 0.335,
+     "decision_s_p95": 0.98,
+     "decision_s_max": 1.262
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.371365125435802,
+    "fill_per_pallet_used": 0.37643067353009263,
+    "time_s": 972.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 36.3,
+    "search": {
+     "decisions": 99,
+     "searched": 97,
+     "changed": 12,
+     "expansions": 1886,
+     "timeouts": 0,
+     "decision_s_mean": 0.361,
+     "decision_s_p95": 0.896,
+     "decision_s_max": 1.22
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.185117585089507,
+    "fill_per_pallet_used": 0.30114453882407405,
+    "time_s": 1080.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 31.3,
+    "search": {
+     "decisions": 103,
+     "searched": 95,
+     "changed": 10,
+     "expansions": 1218,
+     "timeouts": 0,
+     "decision_s_mean": 0.298,
+     "decision_s_p95": 0.818,
+     "decision_s_max": 1.352
+    }
+   }
+  },
+  {
+   "episode": 9,
+   "rule": {
+    "pallet_equivalents": 3.0551712271931435,
+    "fill_per_pallet_used": 0.2417040446230486,
+    "time_s": 1120.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 11.9
+   },
+   "N3": {
+    "pallet_equivalents": 2.2607180762601775,
+    "fill_per_pallet_used": 0.3222720594973982,
+    "time_s": 1056.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 71.2,
+    "search": {
+     "decisions": 114,
+     "searched": 108,
+     "changed": 18,
+     "expansions": 1653,
+     "timeouts": 0,
+     "decision_s_mean": 0.615,
+     "decision_s_p95": 1.636,
+     "decision_s_max": 5.575
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.0054347273333333,
+    "fill_per_pallet_used": 0.24170404462304865,
+    "time_s": 1088.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 77.8,
+    "search": {
+     "decisions": 109,
+     "searched": 95,
+     "changed": 10,
+     "expansions": 2017,
+     "timeouts": 0,
+     "decision_s_mean": 0.684,
+     "decision_s_p95": 1.884,
+     "decision_s_max": 6.166
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 2.2607180762601775,
+    "fill_per_pallet_used": 0.3222720594973982,
+    "time_s": 1056.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 70.3,
+    "search": {
+     "decisions": 114,
+     "searched": 108,
+     "changed": 18,
+     "expansions": 1653,
+     "timeouts": 0,
+     "decision_s_mean": 0.607,
+     "decision_s_p95": 1.664,
+     "decision_s_max": 5.362
+    }
+   }
+  },
+  {
+   "episode": 10,
+   "rule": {
+    "pallet_equivalents": 5.0770868617037035,
+    "fill_per_pallet_used": 0.21085244415432097,
+    "time_s": 1228.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 6.2
+   },
+   "N3": {
+    "pallet_equivalents": 3.3086637133186727,
+    "fill_per_pallet_used": 0.31627866623148143,
+    "time_s": 1098.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 39.5,
+    "search": {
+     "decisions": 109,
+     "searched": 91,
+     "changed": 15,
+     "expansions": 1353,
+     "timeouts": 0,
+     "decision_s_mean": 0.338,
+     "decision_s_p95": 1.062,
+     "decision_s_max": 2.23
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.154108100731482,
+    "fill_per_pallet_used": 0.2530229329851852,
+    "time_s": 1150.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 58.2,
+    "search": {
+     "decisions": 108,
+     "searched": 90,
+     "changed": 13,
+     "expansions": 1967,
+     "timeouts": 0,
+     "decision_s_mean": 0.529,
+     "decision_s_p95": 1.897,
+     "decision_s_max": 4.792
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.0770868617037035,
+    "fill_per_pallet_used": 0.25302293298518513,
+    "time_s": 1156.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 36.9,
+    "search": {
+     "decisions": 109,
+     "searched": 88,
+     "changed": 14,
+     "expansions": 1218,
+     "timeouts": 0,
+     "decision_s_mean": 0.302,
+     "decision_s_p95": 1.048,
+     "decision_s_max": 1.347
+    }
+   }
+  },
+  {
+   "episode": 11,
+   "rule": {
+    "pallet_equivalents": 3.267628985719136,
+    "fill_per_pallet_used": 0.2559932792554013,
+    "time_s": 994.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 6.4
+   },
+   "N3": {
+    "pallet_equivalents": 3.038170527432716,
+    "fill_per_pallet_used": 0.2559932792554013,
+    "time_s": 1036.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 46.0,
+    "search": {
+     "decisions": 107,
+     "searched": 104,
+     "changed": 6,
+     "expansions": 1510,
+     "timeouts": 0,
+     "decision_s_mean": 0.423,
+     "decision_s_p95": 1.501,
+     "decision_s_max": 2.294
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.153046038421605,
+    "fill_per_pallet_used": 0.2559932792554013,
+    "time_s": 1022.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 54.2,
+    "search": {
+     "decisions": 104,
+     "searched": 96,
+     "changed": 11,
+     "expansions": 1975,
+     "timeouts": 0,
+     "decision_s_mean": 0.513,
+     "decision_s_p95": 1.629,
+     "decision_s_max": 2.247
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 2.279300654419753,
+    "fill_per_pallet_used": 0.34132437234053503,
+    "time_s": 968.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 44.9,
+    "search": {
+     "decisions": 106,
+     "searched": 104,
+     "changed": 9,
+     "expansions": 1490,
+     "timeouts": 0,
+     "decision_s_mean": 0.416,
+     "decision_s_p95": 1.547,
+     "decision_s_max": 2.083
+    }
+   }
+  },
+  {
+   "episode": 12,
+   "rule": {
+    "pallet_equivalents": 3.1617565381049384,
+    "fill_per_pallet_used": 0.22527340588595673,
+    "time_s": 1104.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 10.3
+   },
+   "N3": {
+    "pallet_equivalents": 3.061552207888889,
+    "fill_per_pallet_used": 0.2252734058859568,
+    "time_s": 1100.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 89.4,
+    "search": {
+     "decisions": 113,
+     "searched": 103,
+     "changed": 20,
+     "expansions": 1687,
+     "timeouts": 0,
+     "decision_s_mean": 0.78,
+     "decision_s_p95": 2.861,
+     "decision_s_max": 6.003
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 2.463102934820988,
+    "fill_per_pallet_used": 0.3003645411812757,
+    "time_s": 1078.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 111.5,
+    "search": {
+     "decisions": 117,
+     "searched": 106,
+     "changed": 20,
+     "expansions": 2585,
+     "timeouts": 0,
+     "decision_s_mean": 0.943,
+     "decision_s_p95": 2.863,
+     "decision_s_max": 6.433
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.200066155482716,
+    "fill_per_pallet_used": 0.22527340588595676,
+    "time_s": 1122.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 105.2,
+    "search": {
+     "decisions": 113,
+     "searched": 99,
+     "changed": 15,
+     "expansions": 1594,
+     "timeouts": 0,
+     "decision_s_mean": 0.917,
+     "decision_s_p95": 2.919,
+     "decision_s_max": 10.524
+    }
+   }
+  },
+  {
+   "episode": 13,
+   "rule": {
+    "pallet_equivalents": 5.076234128790124,
+    "fill_per_pallet_used": 0.20351143151080248,
+    "time_s": 1180.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 4.5
+   },
+   "N3": {
+    "pallet_equivalents": 4.124334843429012,
+    "fill_per_pallet_used": 0.24421371781296294,
+    "time_s": 1108.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 40.9,
+    "search": {
+     "decisions": 107,
+     "searched": 93,
+     "changed": 9,
+     "expansions": 1283,
+     "timeouts": 0,
+     "decision_s_mean": 0.364,
+     "decision_s_p95": 1.165,
+     "decision_s_max": 1.493
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.136436364966821,
+    "fill_per_pallet_used": 0.24421371781296294,
+    "time_s": 1110.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 57.7,
+    "search": {
+     "decisions": 107,
+     "searched": 93,
+     "changed": 7,
+     "expansions": 1829,
+     "timeouts": 0,
+     "decision_s_mean": 0.531,
+     "decision_s_p95": 1.588,
+     "decision_s_max": 3.261
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.213649462628858,
+    "fill_per_pallet_used": 0.24421371781296294,
+    "time_s": 1140.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 34.6,
+    "search": {
+     "decisions": 110,
+     "searched": 95,
+     "changed": 13,
+     "expansions": 1328,
+     "timeouts": 0,
+     "decision_s_mean": 0.306,
+     "decision_s_p95": 0.895,
+     "decision_s_max": 1.645
+    }
+   }
+  },
+  {
+   "episode": 14,
+   "rule": {
+    "pallet_equivalents": 3.3184791326605447,
+    "fill_per_pallet_used": 0.2692282223870523,
+    "time_s": 1070.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 9.5
+   },
+   "N3": {
+    "pallet_equivalents": 3.2654807400312214,
+    "fill_per_pallet_used": 0.26922822238705224,
+    "time_s": 1082.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 51.2,
+    "search": {
+     "decisions": 107,
+     "searched": 83,
+     "changed": 11,
+     "expansions": 1214,
+     "timeouts": 0,
+     "decision_s_mean": 0.424,
+     "decision_s_p95": 1.172,
+     "decision_s_max": 3.3
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.359545945169881,
+    "fill_per_pallet_used": 0.2692282223870523,
+    "time_s": 1046.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 59.8,
+    "search": {
+     "decisions": 106,
+     "searched": 89,
+     "changed": 13,
+     "expansions": 1861,
+     "timeouts": 0,
+     "decision_s_mean": 0.54,
+     "decision_s_p95": 1.291,
+     "decision_s_max": 1.895
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.3266456124989285,
+    "fill_per_pallet_used": 0.2692282223870523,
+    "time_s": 1074.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 45.3,
+    "search": {
+     "decisions": 106,
+     "searched": 81,
+     "changed": 12,
+     "expansions": 1161,
+     "timeouts": 0,
+     "decision_s_mean": 0.376,
+     "decision_s_p95": 1.104,
+     "decision_s_max": 3.15
+    }
+   }
+  },
+  {
+   "episode": 15,
+   "rule": {
+    "pallet_equivalents": 3.3097256075012345,
+    "fill_per_pallet_used": 0.31225093718996916,
+    "time_s": 984.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 4.5
+   },
+   "N3": {
+    "pallet_equivalents": 3.3315005251265433,
+    "fill_per_pallet_used": 0.3122509371899691,
+    "time_s": 1050.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 43.6,
+    "search": {
+     "decisions": 107,
+     "searched": 100,
+     "changed": 19,
+     "expansions": 1461,
+     "timeouts": 0,
+     "decision_s_mean": 0.388,
+     "decision_s_p95": 1.075,
+     "decision_s_max": 1.584
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.287441495251852,
+    "fill_per_pallet_used": 0.3122509371899691,
+    "time_s": 986.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 36.2,
+    "search": {
+     "decisions": 100,
+     "searched": 97,
+     "changed": 5,
+     "expansions": 1644,
+     "timeouts": 0,
+     "decision_s_mean": 0.357,
+     "decision_s_p95": 1.248,
+     "decision_s_max": 1.458
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.06040138203642,
+    "fill_per_pallet_used": 0.2498007497519753,
+    "time_s": 1124.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 40.2,
+    "search": {
+     "decisions": 109,
+     "searched": 99,
+     "changed": 17,
+     "expansions": 1375,
+     "timeouts": 0,
+     "decision_s_mean": 0.347,
+     "decision_s_p95": 0.989,
+     "decision_s_max": 1.152
+    }
+   }
+  },
+  {
+   "episode": 16,
+   "rule": {
+    "pallet_equivalents": 5.0119835193441356,
+    "fill_per_pallet_used": 0.2570916510369084,
+    "time_s": 1154.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 5.1
+   },
+   "N3": {
+    "pallet_equivalents": 4.118302386072531,
+    "fill_per_pallet_used": 0.3085099812442902,
+    "time_s": 1160.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 43.1,
+    "search": {
+     "decisions": 109,
+     "searched": 94,
+     "changed": 17,
+     "expansions": 1384,
+     "timeouts": 0,
+     "decision_s_mean": 0.381,
+     "decision_s_p95": 0.927,
+     "decision_s_max": 3.466
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 5.0119835193441356,
+    "fill_per_pallet_used": 0.25709165103690845,
+    "time_s": 1180.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 42.7,
+    "search": {
+     "decisions": 108,
+     "searched": 88,
+     "changed": 14,
+     "expansions": 1979,
+     "timeouts": 0,
+     "decision_s_mean": 0.371,
+     "decision_s_p95": 1.002,
+     "decision_s_max": 1.325
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.17877708004784,
+    "fill_per_pallet_used": 0.30850998124429013,
+    "time_s": 1072.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 37.2,
+    "search": {
+     "decisions": 101,
+     "searched": 75,
+     "changed": 11,
+     "expansions": 1124,
+     "timeouts": 0,
+     "decision_s_mean": 0.343,
+     "decision_s_p95": 0.989,
+     "decision_s_max": 3.408
+    }
+   }
+  },
+  {
+   "episode": 17,
+   "rule": {
+    "pallet_equivalents": 5.061831309481481,
+    "fill_per_pallet_used": 0.1787140201271605,
+    "time_s": 1288.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 11.2
+   },
+   "N3": {
+    "pallet_equivalents": 4.061831309481481,
+    "fill_per_pallet_used": 0.2144568241525925,
+    "time_s": 1186.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 61.9,
+    "search": {
+     "decisions": 113,
+     "searched": 95,
+     "changed": 21,
+     "expansions": 1675,
+     "timeouts": 0,
+     "decision_s_mean": 0.51,
+     "decision_s_p95": 1.256,
+     "decision_s_max": 5.169
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.061831309481481,
+    "fill_per_pallet_used": 0.21445682415259257,
+    "time_s": 1194.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 101.4,
+    "search": {
+     "decisions": 115,
+     "searched": 95,
+     "changed": 20,
+     "expansions": 2241,
+     "timeouts": 0,
+     "decision_s_mean": 0.847,
+     "decision_s_p95": 3.13,
+     "decision_s_max": 7.985
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.177164583445679,
+    "fill_per_pallet_used": 0.2144568241525926,
+    "time_s": 1194.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 62.0,
+    "search": {
+     "decisions": 110,
+     "searched": 85,
+     "changed": 16,
+     "expansions": 1414,
+     "timeouts": 0,
+     "decision_s_mean": 0.499,
+     "decision_s_p95": 1.416,
+     "decision_s_max": 5.34
+    }
+   }
+  },
+  {
+   "episode": 18,
+   "rule": {
+    "pallet_equivalents": 5.183427459807775,
+    "fill_per_pallet_used": 0.17844370616028976,
+    "time_s": 1244.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 8.4
+   },
+   "N3": {
+    "pallet_equivalents": 4.362996816711968,
+    "fill_per_pallet_used": 0.21413244739234769,
+    "time_s": 1170.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 54.6,
+    "search": {
+     "decisions": 114,
+     "searched": 96,
+     "changed": 17,
+     "expansions": 1802,
+     "timeouts": 0,
+     "decision_s_mean": 0.445,
+     "decision_s_p95": 1.167,
+     "decision_s_max": 2.55
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.061165539019283,
+    "fill_per_pallet_used": 0.21413244739234769,
+    "time_s": 1144.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 86.8,
+    "search": {
+     "decisions": 110,
+     "searched": 95,
+     "changed": 15,
+     "expansions": 2231,
+     "timeouts": 0,
+     "decision_s_mean": 0.761,
+     "decision_s_p95": 3.358,
+     "decision_s_max": 5.799
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.301817893075604,
+    "fill_per_pallet_used": 0.21413244739234766,
+    "time_s": 1144.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 60.7,
+    "search": {
+     "decisions": 111,
+     "searched": 94,
+     "changed": 21,
+     "expansions": 1805,
+     "timeouts": 0,
+     "decision_s_mean": 0.521,
+     "decision_s_p95": 1.597,
+     "decision_s_max": 2.249
+    }
+   }
+  },
+  {
+   "episode": 19,
+   "rule": {
+    "pallet_equivalents": 3.2589597356535047,
+    "fill_per_pallet_used": 0.23746499640679514,
+    "time_s": 1178.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 11.2
+   },
+   "N3": {
+    "pallet_equivalents": 3.182957548178757,
+    "fill_per_pallet_used": 0.23746499640679514,
+    "time_s": 1100.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 63.9,
+    "search": {
+     "decisions": 113,
+     "searched": 105,
+     "changed": 14,
+     "expansions": 1752,
+     "timeouts": 0,
+     "decision_s_mean": 0.556,
+     "decision_s_p95": 1.476,
+     "decision_s_max": 2.567
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.1219899144842365,
+    "fill_per_pallet_used": 0.2374649964067952,
+    "time_s": 1094.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 89.3,
+    "search": {
+     "decisions": 113,
+     "searched": 103,
+     "changed": 11,
+     "expansions": 2321,
+     "timeouts": 0,
+     "decision_s_mean": 0.779,
+     "decision_s_p95": 2.062,
+     "decision_s_max": 6.9
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.2971195008344045,
+    "fill_per_pallet_used": 0.23746499640679514,
+    "time_s": 1146.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 66.6,
+    "search": {
+     "decisions": 118,
+     "searched": 103,
+     "changed": 15,
+     "expansions": 1649,
+     "timeouts": 0,
+     "decision_s_mean": 0.555,
+     "decision_s_p95": 1.725,
+     "decision_s_max": 2.814
+    }
+   }
+  },
+  {
+   "episode": 20,
+   "rule": {
+    "pallet_equivalents": 3.0703692231592594,
+    "fill_per_pallet_used": 0.23843116135123457,
+    "time_s": 1044.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 6.1
+   },
+   "N3": {
+    "pallet_equivalents": 3.0703692231592594,
+    "fill_per_pallet_used": 0.2384311613512346,
+    "time_s": 1090.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 58.6,
+    "search": {
+     "decisions": 111,
+     "searched": 102,
+     "changed": 5,
+     "expansions": 1381,
+     "timeouts": 0,
+     "decision_s_mean": 0.497,
+     "decision_s_p95": 1.275,
+     "decision_s_max": 4.885
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 2.3803597423493827,
+    "fill_per_pallet_used": 0.3179082151349794,
+    "time_s": 1002.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 73.3,
+    "search": {
+     "decisions": 109,
+     "searched": 100,
+     "changed": 8,
+     "expansions": 1998,
+     "timeouts": 0,
+     "decision_s_mean": 0.641,
+     "decision_s_p95": 1.886,
+     "decision_s_max": 3.09
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.0218782452777777,
+    "fill_per_pallet_used": 0.23843116135123457,
+    "time_s": 1050.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 53.6,
+    "search": {
+     "decisions": 108,
+     "searched": 102,
+     "changed": 13,
+     "expansions": 1402,
+     "timeouts": 0,
+     "decision_s_mean": 0.486,
+     "decision_s_p95": 1.169,
+     "decision_s_max": 1.949
+    }
+   }
+  },
+  {
+   "episode": 21,
+   "rule": {
+    "pallet_equivalents": 3.13420206631358,
+    "fill_per_pallet_used": 0.27751600772623447,
+    "time_s": 1216.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 9.2
+   },
+   "N3": {
+    "pallet_equivalents": 2.3829553161703703,
+    "fill_per_pallet_used": 0.37002134363497946,
+    "time_s": 1052.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 65.3,
+    "search": {
+     "decisions": 112,
+     "searched": 101,
+     "changed": 8,
+     "expansions": 1322,
+     "timeouts": 0,
+     "decision_s_mean": 0.494,
+     "decision_s_p95": 1.738,
+     "decision_s_max": 2.582
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.0618400672950616,
+    "fill_per_pallet_used": 0.2775160077262345,
+    "time_s": 1068.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 107.0,
+    "search": {
+     "decisions": 108,
+     "searched": 99,
+     "changed": 15,
+     "expansions": 1962,
+     "timeouts": 0,
+     "decision_s_mean": 0.977,
+     "decision_s_p95": 2.433,
+     "decision_s_max": 8.196
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 2.3829553161703703,
+    "fill_per_pallet_used": 0.37002134363497946,
+    "time_s": 1052.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 62.6,
+    "search": {
+     "decisions": 112,
+     "searched": 101,
+     "changed": 8,
+     "expansions": 1322,
+     "timeouts": 0,
+     "decision_s_mean": 0.489,
+     "decision_s_p95": 1.591,
+     "decision_s_max": 2.255
+    }
+   }
+  },
+  {
+   "episode": 22,
+   "rule": {
+    "pallet_equivalents": 4.120808248345271,
+    "fill_per_pallet_used": 0.17711277214925003,
+    "time_s": 1200.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 9.5
+   },
+   "N3": {
+    "pallet_equivalents": 3.2806426621965104,
+    "fill_per_pallet_used": 0.22139096518656254,
+    "time_s": 1140.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 104.3,
+    "search": {
+     "decisions": 116,
+     "searched": 98,
+     "changed": 19,
+     "expansions": 1924,
+     "timeouts": 0,
+     "decision_s_mean": 0.826,
+     "decision_s_p95": 2.412,
+     "decision_s_max": 5.578
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.1819330883966943,
+    "fill_per_pallet_used": 0.22139096518656257,
+    "time_s": 1212.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 198.5,
+    "search": {
+     "decisions": 123,
+     "searched": 100,
+     "changed": 20,
+     "expansions": 2739,
+     "timeouts": 0,
+     "decision_s_mean": 1.565,
+     "decision_s_p95": 6.421,
+     "decision_s_max": 15.507
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.2806426621965104,
+    "fill_per_pallet_used": 0.22139096518656254,
+    "time_s": 1140.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 100.9,
+    "search": {
+     "decisions": 116,
+     "searched": 98,
+     "changed": 19,
+     "expansions": 1924,
+     "timeouts": 0,
+     "decision_s_mean": 0.793,
+     "decision_s_p95": 2.104,
+     "decision_s_max": 5.638
+    }
+   }
+  },
+  {
+   "episode": 23,
+   "rule": {
+    "pallet_equivalents": 4.061199265723905,
+    "fill_per_pallet_used": 0.24280602189323536,
+    "time_s": 1028.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 7.1
+   },
+   "N3": {
+    "pallet_equivalents": 3.2702455501493723,
+    "fill_per_pallet_used": 0.3035075273665442,
+    "time_s": 986.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 55.2,
+    "search": {
+     "decisions": 100,
+     "searched": 96,
+     "changed": 8,
+     "expansions": 1404,
+     "timeouts": 0,
+     "decision_s_mean": 0.543,
+     "decision_s_p95": 2.07,
+     "decision_s_max": 2.336
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.2706285580220387,
+    "fill_per_pallet_used": 0.3035075273665442,
+    "time_s": 936.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 58.6,
+    "search": {
+     "decisions": 94,
+     "searched": 89,
+     "changed": 8,
+     "expansions": 1707,
+     "timeouts": 0,
+     "decision_s_mean": 0.614,
+     "decision_s_p95": 1.453,
+     "decision_s_max": 2.894
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.2702455501493723,
+    "fill_per_pallet_used": 0.3035075273665442,
+    "time_s": 986.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 54.0,
+    "search": {
+     "decisions": 100,
+     "searched": 96,
+     "changed": 8,
+     "expansions": 1404,
+     "timeouts": 0,
+     "decision_s_mean": 0.531,
+     "decision_s_p95": 2.195,
+     "decision_s_max": 2.943
+    }
+   }
+  },
+  {
+   "episode": 24,
+   "rule": {
+    "pallet_equivalents": 5.1835150713294755,
+    "fill_per_pallet_used": 0.22871626613387347,
+    "time_s": 1216.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 8.5
+   },
+   "N3": {
+    "pallet_equivalents": 4.112143071554784,
+    "fill_per_pallet_used": 0.27445951936064816,
+    "time_s": 1140.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 70.0,
+    "search": {
+     "decisions": 111,
+     "searched": 101,
+     "changed": 24,
+     "expansions": 1942,
+     "timeouts": 0,
+     "decision_s_mean": 0.599,
+     "decision_s_p95": 1.79,
+     "decision_s_max": 2.577
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.0962223785146605,
+    "fill_per_pallet_used": 0.27445951936064816,
+    "time_s": 1214.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 68.4,
+    "search": {
+     "decisions": 116,
+     "searched": 93,
+     "changed": 18,
+     "expansions": 2138,
+     "timeouts": 0,
+     "decision_s_mean": 0.573,
+     "decision_s_p95": 1.631,
+     "decision_s_max": 6.413
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.242779288932098,
+    "fill_per_pallet_used": 0.2744595193606481,
+    "time_s": 1234.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 96.8,
+    "search": {
+     "decisions": 120,
+     "searched": 105,
+     "changed": 23,
+     "expansions": 2090,
+     "timeouts": 0,
+     "decision_s_mean": 0.779,
+     "decision_s_p95": 2.337,
+     "decision_s_max": 5.381
+    }
+   }
+  },
+  {
+   "episode": 25,
+   "rule": {
+    "pallet_equivalents": 3.1140472964191357,
+    "fill_per_pallet_used": 0.23823126080185186,
+    "time_s": 1000.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 5.3
+   },
+   "N3": {
+    "pallet_equivalents": 2.221996384941358,
+    "fill_per_pallet_used": 0.3176416810691359,
+    "time_s": 1024.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 71.5,
+    "search": {
+     "decisions": 111,
+     "searched": 106,
+     "changed": 12,
+     "expansions": 1637,
+     "timeouts": 0,
+     "decision_s_mean": 0.633,
+     "decision_s_p95": 1.832,
+     "decision_s_max": 2.574
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 2.3679262577999998,
+    "fill_per_pallet_used": 0.31764168106913576,
+    "time_s": 996.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 80.2,
+    "search": {
+     "decisions": 108,
+     "searched": 98,
+     "changed": 13,
+     "expansions": 2128,
+     "timeouts": 0,
+     "decision_s_mean": 0.72,
+     "decision_s_p95": 2.167,
+     "decision_s_max": 3.688
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 2.221996384941358,
+    "fill_per_pallet_used": 0.3176416810691359,
+    "time_s": 1016.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 3,
+    "wall_s": 64.7,
+    "search": {
+     "decisions": 110,
+     "searched": 105,
+     "changed": 13,
+     "expansions": 1603,
+     "timeouts": 0,
+     "decision_s_mean": 0.579,
+     "decision_s_p95": 1.627,
+     "decision_s_max": 2.572
+    }
+   }
+  },
+  {
+   "episode": 26,
+   "rule": {
+    "pallet_equivalents": 4.024754234310185,
+    "fill_per_pallet_used": 0.14467894686172839,
+    "time_s": 1090.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 9.9
+   },
+   "N3": {
+    "pallet_equivalents": 3.072750484728395,
+    "fill_per_pallet_used": 0.18084868357716047,
+    "time_s": 1072.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 58.4,
+    "search": {
+     "decisions": 109,
+     "searched": 96,
+     "changed": 7,
+     "expansions": 1280,
+     "timeouts": 0,
+     "decision_s_mean": 0.524,
+     "decision_s_p95": 1.51,
+     "decision_s_max": 3.038
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.0604288864560187,
+    "fill_per_pallet_used": 0.1808486835771605,
+    "time_s": 1086.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 106.1,
+    "search": {
+     "decisions": 109,
+     "searched": 93,
+     "changed": 11,
+     "expansions": 2118,
+     "timeouts": 0,
+     "decision_s_mean": 0.92,
+     "decision_s_p95": 3.369,
+     "decision_s_max": 6.857
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.061207293222222,
+    "fill_per_pallet_used": 0.1808486835771605,
+    "time_s": 1080.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 57.8,
+    "search": {
+     "decisions": 110,
+     "searched": 96,
+     "changed": 6,
+     "expansions": 1275,
+     "timeouts": 0,
+     "decision_s_mean": 0.503,
+     "decision_s_p95": 1.506,
+     "decision_s_max": 3.333
+    }
+   }
+  },
+  {
+   "episode": 27,
+   "rule": {
+    "pallet_equivalents": 3.110478093939394,
+    "fill_per_pallet_used": 0.2487093963438934,
+    "time_s": 1078.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 8.4
+   },
+   "N3": {
+    "pallet_equivalents": 3.193436484533211,
+    "fill_per_pallet_used": 0.2487093963438934,
+    "time_s": 1126.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 67.3,
+    "search": {
+     "decisions": 115,
+     "searched": 101,
+     "changed": 15,
+     "expansions": 1479,
+     "timeouts": 0,
+     "decision_s_mean": 0.572,
+     "decision_s_p95": 1.649,
+     "decision_s_max": 3.631
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.010968587327824,
+    "fill_per_pallet_used": 0.24870939634389344,
+    "time_s": 1050.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 82.1,
+    "search": {
+     "decisions": 107,
+     "searched": 97,
+     "changed": 12,
+     "expansions": 2000,
+     "timeouts": 0,
+     "decision_s_mean": 0.728,
+     "decision_s_p95": 2.022,
+     "decision_s_max": 7.36
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.193436484533211,
+    "fill_per_pallet_used": 0.2487093963438934,
+    "time_s": 1126.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 62.6,
+    "search": {
+     "decisions": 115,
+     "searched": 101,
+     "changed": 15,
+     "expansions": 1479,
+     "timeouts": 0,
+     "decision_s_mean": 0.533,
+     "decision_s_p95": 1.502,
+     "decision_s_max": 3.718
+    }
+   }
+  },
+  {
+   "episode": 28,
+   "rule": {
+    "pallet_equivalents": 4.462258170638889,
+    "fill_per_pallet_used": 0.28745954303796295,
+    "time_s": 1242.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 13.5
+   },
+   "N3": {
+    "pallet_equivalents": 4.384803043819445,
+    "fill_per_pallet_used": 0.287459543037963,
+    "time_s": 1190.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 66.9,
+    "search": {
+     "decisions": 113,
+     "searched": 93,
+     "changed": 15,
+     "expansions": 1494,
+     "timeouts": 0,
+     "decision_s_mean": 0.558,
+     "decision_s_p95": 1.511,
+     "decision_s_max": 5.714
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.384803043819445,
+    "fill_per_pallet_used": 0.28745954303796295,
+    "time_s": 1172.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 110.3,
+    "search": {
+     "decisions": 112,
+     "searched": 94,
+     "changed": 15,
+     "expansions": 2198,
+     "timeouts": 0,
+     "decision_s_mean": 0.972,
+     "decision_s_p95": 3.188,
+     "decision_s_max": 7.311
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.384803043819445,
+    "fill_per_pallet_used": 0.28745954303796295,
+    "time_s": 1194.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 69.3,
+    "search": {
+     "decisions": 113,
+     "searched": 90,
+     "changed": 19,
+     "expansions": 1545,
+     "timeouts": 0,
+     "decision_s_mean": 0.575,
+     "decision_s_p95": 1.503,
+     "decision_s_max": 5.912
+    }
+   }
+  },
+  {
+   "episode": 29,
+   "rule": {
+    "pallet_equivalents": 3.068521419852464,
+    "fill_per_pallet_used": 0.24951852567294147,
+    "time_s": 1080.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 10.6
+   },
+   "N3": {
+    "pallet_equivalents": 3.0608686545454544,
+    "fill_per_pallet_used": 0.24951852567294147,
+    "time_s": 1116.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 60.5,
+    "search": {
+     "decisions": 113,
+     "searched": 100,
+     "changed": 12,
+     "expansions": 1458,
+     "timeouts": 0,
+     "decision_s_mean": 0.508,
+     "decision_s_p95": 1.58,
+     "decision_s_max": 3.075
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.0608686545454544,
+    "fill_per_pallet_used": 0.24951852567294147,
+    "time_s": 1084.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 96.3,
+    "search": {
+     "decisions": 110,
+     "searched": 96,
+     "changed": 14,
+     "expansions": 2131,
+     "timeouts": 0,
+     "decision_s_mean": 0.842,
+     "decision_s_p95": 2.096,
+     "decision_s_max": 9.14
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.0608686545454544,
+    "fill_per_pallet_used": 0.2495185256729415,
+    "time_s": 1088.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 67.1,
+    "search": {
+     "decisions": 110,
+     "searched": 97,
+     "changed": 14,
+     "expansions": 1433,
+     "timeouts": 0,
+     "decision_s_mean": 0.565,
+     "decision_s_p95": 1.715,
+     "decision_s_max": 4.317
+    }
+   }
+  },
+  {
+   "episode": 30,
+   "rule": {
+    "pallet_equivalents": 4.122720715123457,
+    "fill_per_pallet_used": 0.2070766651555555,
+    "time_s": 1190.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 10.3
+   },
+   "N3": {
+    "pallet_equivalents": 3.346570133812346,
+    "fill_per_pallet_used": 0.2588458314444444,
+    "time_s": 1146.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 73.2,
+    "search": {
+     "decisions": 118,
+     "searched": 104,
+     "changed": 11,
+     "expansions": 1753,
+     "timeouts": 0,
+     "decision_s_mean": 0.594,
+     "decision_s_p95": 1.515,
+     "decision_s_max": 8.997
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 3.2460069935679012,
+    "fill_per_pallet_used": 0.2588458314444444,
+    "time_s": 1136.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 102.6,
+    "search": {
+     "decisions": 115,
+     "searched": 102,
+     "changed": 9,
+     "expansions": 2540,
+     "timeouts": 0,
+     "decision_s_mean": 0.874,
+     "decision_s_p95": 2.541,
+     "decision_s_max": 5.391
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 3.2460069935679012,
+    "fill_per_pallet_used": 0.2588458314444444,
+    "time_s": 1154.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 4,
+    "wall_s": 72.5,
+    "search": {
+     "decisions": 119,
+     "searched": 105,
+     "changed": 9,
+     "expansions": 1787,
+     "timeouts": 0,
+     "decision_s_mean": 0.586,
+     "decision_s_p95": 1.473,
+     "decision_s_max": 9.968
+    }
+   }
+  },
+  {
+   "episode": 31,
+   "rule": {
+    "pallet_equivalents": 4.214165613797068,
+    "fill_per_pallet_used": 0.2558610693412037,
+    "time_s": 1110.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 9.5
+   },
+   "N3": {
+    "pallet_equivalents": 4.047644383917438,
+    "fill_per_pallet_used": 0.25586106934120373,
+    "time_s": 1078.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 34.1,
+    "search": {
+     "decisions": 103,
+     "searched": 85,
+     "changed": 10,
+     "expansions": 1280,
+     "timeouts": 0,
+     "decision_s_mean": 0.302,
+     "decision_s_p95": 0.879,
+     "decision_s_max": 1.338
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.047644383917438,
+    "fill_per_pallet_used": 0.25586106934120373,
+    "time_s": 1052.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 30.5,
+    "search": {
+     "decisions": 100,
+     "searched": 83,
+     "changed": 6,
+     "expansions": 1482,
+     "timeouts": 0,
+     "decision_s_mean": 0.279,
+     "decision_s_p95": 0.82,
+     "decision_s_max": 1.017
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.047644383917438,
+    "fill_per_pallet_used": 0.25586106934120373,
+    "time_s": 1078.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 35.9,
+    "search": {
+     "decisions": 103,
+     "searched": 85,
+     "changed": 10,
+     "expansions": 1280,
+     "timeouts": 0,
+     "decision_s_mean": 0.319,
+     "decision_s_p95": 0.887,
+     "decision_s_max": 1.359
+    }
+   }
+  },
+  {
+   "episode": 32,
+   "rule": {
+    "pallet_equivalents": 5.244314751327211,
+    "fill_per_pallet_used": 0.2596505897404346,
+    "time_s": 1252.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 8.6
+   },
+   "N3": {
+    "pallet_equivalents": 4.428119196102235,
+    "fill_per_pallet_used": 0.3115807076885215,
+    "time_s": 1210.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 74.3,
+    "search": {
+     "decisions": 119,
+     "searched": 109,
+     "changed": 20,
+     "expansions": 1810,
+     "timeouts": 0,
+     "decision_s_mean": 0.595,
+     "decision_s_p95": 2.454,
+     "decision_s_max": 5.614
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.366918763908785,
+    "fill_per_pallet_used": 0.3115807076885215,
+    "time_s": 1118.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 90.3,
+    "search": {
+     "decisions": 107,
+     "searched": 97,
+     "changed": 18,
+     "expansions": 2098,
+     "timeouts": 0,
+     "decision_s_mean": 0.831,
+     "decision_s_p95": 2.402,
+     "decision_s_max": 7.143
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.427885227150903,
+    "fill_per_pallet_used": 0.31158070768852153,
+    "time_s": 1174.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 90.0,
+    "search": {
+     "decisions": 115,
+     "searched": 106,
+     "changed": 17,
+     "expansions": 1977,
+     "timeouts": 0,
+     "decision_s_mean": 0.755,
+     "decision_s_p95": 2.815,
+     "decision_s_max": 3.353
+    }
+   }
+  },
+  {
+   "episode": 33,
+   "rule": {
+    "pallet_equivalents": 5.047861820987654,
+    "fill_per_pallet_used": 0.23766690556468623,
+    "time_s": 1234.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 4.4
+   },
+   "N3": {
+    "pallet_equivalents": 4.268885590331019,
+    "fill_per_pallet_used": 0.2852002866776234,
+    "time_s": 1130.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 40.1,
+    "search": {
+     "decisions": 107,
+     "searched": 91,
+     "changed": 13,
+     "expansions": 1410,
+     "timeouts": 0,
+     "decision_s_mean": 0.341,
+     "decision_s_p95": 0.913,
+     "decision_s_max": 1.737
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.063796580770061,
+    "fill_per_pallet_used": 0.2852002866776235,
+    "time_s": 1102.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 40.3,
+    "search": {
+     "decisions": 107,
+     "searched": 96,
+     "changed": 11,
+     "expansions": 1969,
+     "timeouts": 0,
+     "decision_s_mean": 0.358,
+     "decision_s_p95": 1.057,
+     "decision_s_max": 1.97
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 5.047861820987654,
+    "fill_per_pallet_used": 0.2376669055646862,
+    "time_s": 1144.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 37.8,
+    "search": {
+     "decisions": 104,
+     "searched": 92,
+     "changed": 16,
+     "expansions": 1389,
+     "timeouts": 0,
+     "decision_s_mean": 0.347,
+     "decision_s_p95": 0.942,
+     "decision_s_max": 1.147
+    }
+   }
+  },
+  {
+   "episode": 34,
+   "rule": {
+    "pallet_equivalents": 5.061029801555556,
+    "fill_per_pallet_used": 0.2426867848293031,
+    "time_s": 1226.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 6,
+    "wall_s": 8.9
+   },
+   "N3": {
+    "pallet_equivalents": 4.244390102786042,
+    "fill_per_pallet_used": 0.2912241417951637,
+    "time_s": 1232.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 62.2,
+    "search": {
+     "decisions": 118,
+     "searched": 106,
+     "changed": 17,
+     "expansions": 1853,
+     "timeouts": 0,
+     "decision_s_mean": 0.492,
+     "decision_s_p95": 1.313,
+     "decision_s_max": 5.388
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 4.244390102786042,
+    "fill_per_pallet_used": 0.2912241417951637,
+    "time_s": 1200.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 84.7,
+    "search": {
+     "decisions": 114,
+     "searched": 104,
+     "changed": 11,
+     "expansions": 2615,
+     "timeouts": 0,
+     "decision_s_mean": 0.732,
+     "decision_s_p95": 2.821,
+     "decision_s_max": 6.953
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 4.244390102786042,
+    "fill_per_pallet_used": 0.2912241417951637,
+    "time_s": 1232.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 5,
+    "wall_s": 62.8,
+    "search": {
+     "decisions": 118,
+     "searched": 106,
+     "changed": 17,
+     "expansions": 1853,
+     "timeouts": 0,
+     "decision_s_mean": 0.489,
+     "decision_s_p95": 1.274,
+     "decision_s_max": 5.233
+    }
+   }
+  },
+  {
+   "episode": 35,
+   "rule": {
+    "pallet_equivalents": 7.1931614634986225,
+    "fill_per_pallet_used": 0.3730052394589071,
+    "time_s": 1268.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 8,
+    "wall_s": 4.1
+   },
+   "N3": {
+    "pallet_equivalents": 7.0614676837588,
+    "fill_per_pallet_used": 0.3730052394589072,
+    "time_s": 1224.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 8,
+    "wall_s": 39.6,
+    "search": {
+     "decisions": 99,
+     "searched": 91,
+     "changed": 16,
+     "expansions": 1476,
+     "timeouts": 0,
+     "decision_s_mean": 0.388,
+     "decision_s_p95": 1.205,
+     "decision_s_max": 1.973
+    }
+   },
+   "N5": {
+    "pallet_equivalents": 6.5269286654710745,
+    "fill_per_pallet_used": 0.42629170223875096,
+    "time_s": 1142.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 7,
+    "wall_s": 35.9,
+    "search": {
+     "decisions": 97,
+     "searched": 91,
+     "changed": 17,
+     "expansions": 1844,
+     "timeouts": 0,
+     "decision_s_mean": 0.364,
+     "decision_s_p95": 0.925,
+     "decision_s_max": 1.437
+    }
+   },
+   "N3d05": {
+    "pallet_equivalents": 7.061044474257729,
+    "fill_per_pallet_used": 0.37300523945890707,
+    "time_s": 1290.0,
+    "ng": 0,
+    "safety_issues": 0,
+    "pallets_used": 8,
+    "wall_s": 50.8,
+    "search": {
+     "decisions": 106,
+     "searched": 96,
+     "changed": 18,
+     "expansions": 1865,
+     "timeouts": 0,
+     "decision_s_mean": 0.466,
+     "decision_s_p95": 1.332,
+     "decision_s_max": 1.814
+    }
+   }
+  }
+ ]
+}

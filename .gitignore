@@ -1,0 +1,6 @@
+# read-only extracts of teammates' packages (scripts/taehyeon/fetch_team_deps.sh)
+.deps/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
