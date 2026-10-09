@@ -26,7 +26,8 @@ from pac_highlevel.placement import LayerPlacer, layer_config_from_dict
 from virtual_data.highlevel import split_ids, world_factory
 
 _JOB = None
-KEEP = ("pallet_equivalents", "fill_per_pallet_used", "time_s", "ng", "safety_issues", "pallets_used")
+KEEP = ("pallet_equivalents", "fill_per_pallet_used", "time_s", "ng", "safety_issues", "pallets_used",
+        "pallets_closed", "closed_fill_mean")
 
 
 def _parse_variant(text):
@@ -91,6 +92,11 @@ def summarize(rows, name):
         "ng_mean": round(m("ng"), 3),
         "safety_issues": int(sum(r[name]["safety_issues"] for r in rows)),
     }
+    closed = [(r[name].get("pallets_closed", 0), r[name].get("closed_fill_mean") or 0.0) for r in rows]
+    n_closed = sum(n for n, _ in closed)
+    if n_closed:  # fill of the pallets closed before the order ended (the last one stays open)
+        out["closed_fill_mean"] = round(sum(n * f for n, f in closed) / n_closed, 4)
+        out["pallets_closed"] = n_closed
     if name != "rule":
         d = [r[name]["pallet_equivalents"] - r["rule"]["pallet_equivalents"] for r in rows]
         better = sum(x < -1e-9 for x in d)
