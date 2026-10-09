@@ -4,6 +4,7 @@
 schema_version: 1
 lookahead:
   horizon: 5            # boxes after the current one that the conveyor camera sees (val/test best: 5)
+  placer: layer         # 5-3 placement rule: layer (flat layers, default) | dblf
   mode: pilot           # pilot: rule after the first action | beam: branch every decision
   beam: 3               # beam mode only: states kept per first action and level
   time_budget_s: 2.0    # per decision (robot cycle 7-8.5 s); unfinished branches are scored as they are

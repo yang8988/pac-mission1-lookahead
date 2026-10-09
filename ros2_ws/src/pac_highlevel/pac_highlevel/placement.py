@@ -122,6 +122,15 @@ class LayerPlacer:
         return min(self.scores(valid, box, state, backend), key=lambda t: t[:5])[-1]
 
 
+def make_placer(name="layer", config=None):
+    """World ``placer`` for a 5-3 rule name (``None`` = the world's DBLF)."""
+    if name == "dblf":
+        return None
+    if name == "layer":
+        return LayerPlacer(config)
+    raise ValueError(f"unknown placer {name!r}")
+
+
 def layer_config_from_dict(data):
     data = dict(data or {})
     unknown = set(data) - set(LayerConfig.__dataclass_fields__)
@@ -130,4 +139,4 @@ def layer_config_from_dict(data):
     return LayerConfig(**data)
 
 
-__all__ = ["LayerConfig", "LayerPlacer", "heightmap", "layer_config_from_dict", "ring_metrics"]
+__all__ = ["LayerConfig", "LayerPlacer", "heightmap", "layer_config_from_dict", "make_placer", "ring_metrics"]

@@ -178,3 +178,21 @@ def test_layer_placer_picks_only_valid_candidates_and_keeps_episodes_safe():
     w2.placer = LayerPlacer()
     out2 = run_policy(w2, LookaheadPolicy(w2.config, LookaheadConfig(horizon=3, place_candidates=3)))
     assert out2["safety_issues"] == 0
+
+
+# ---------------------------------------------------------------- real time
+
+
+def test_timed_run_plans_during_motion_and_respects_the_conveyor():
+    from pac_highlevel.realtime import ConveyorConfig, TimedRun
+
+    w = world(mixed_boxes())
+    policy = LookaheadPolicy(w.config, LookaheadConfig(horizon=3))
+    out = TimedRun(w, policy, ConveyorConfig(interval_s=20.0, capacity=4), horizon=3).run()
+    ev = out["events"]
+    assert out["summary"]["safety_issues"] == 0
+    assert all(b["t_start"] >= a["t_end"] - 1e-6 for a, b in zip(ev, ev[1:]))  # one robot
+    assert all(len(e["visible"]) <= 3 for e in ev)
+    # slow conveyor: the robot has to wait for boxes, and the planner sees short windows
+    assert out["robot_idle_s"] > 0
+    assert any(len(e["visible"]) < 3 for e in ev)

@@ -73,12 +73,15 @@ class LookaheadConfig:
     # placement branches for PLACE / RETRIEVE in the first decision (1 = DBLF only)
     place_candidates: int = 1
     place_min_dist_m: float = 0.10  # alternatives closer than this (same yaw) count as the same spot
+    placer: str = "layer"       # 5-3 rule used by the world and inside the search: layer | dblf
 
     def __post_init__(self):
         if self.horizon < 0 or self.beam < 1 or self.place_candidates < 1:
             raise ValueError("horizon must be >= 0, beam and place_candidates >= 1")
         if self.mode not in ("pilot", "beam"):
             raise ValueError("mode must be pilot or beam")
+        if self.placer not in ("layer", "dblf"):
+            raise ValueError("placer must be layer or dblf")
 
 
 def lookahead_config_from_dict(data):
@@ -385,13 +388,16 @@ class LookaheadPolicy:
         default.sort(key=lambda b: b[0] != first)
         return default + extra
 
-    def scores(self, world, first=None):
+    def scores(self, world, first=None, window_end=None):
         """Score per first-decision branch ((index, candidate_id or None) -> score);
         the pinned candidates are kept in ``self.last_placements``."""
         cfg = self.cfg
         start = time.perf_counter()
         deadline = start + cfg.time_budget_s if cfg.time_budget_s > 0 else None
-        root = window_clone(world, world.next_arrival + cfg.horizon)
+        end = world.next_arrival + cfg.horizon
+        if window_end is not None:  # real time: only the boxes that have reached the camera
+            end = min(end, window_end)
+        root = window_clone(world, end)
         run = self._pilot if cfg.mode == "pilot" else self._beam
         out, self.last_placements = {}, {}
         for k, cand in self.branches(world, first):
@@ -405,7 +411,7 @@ class LookaheadPolicy:
             out[key] = run(child, root, deadline)
         return out
 
-    def __call__(self, world):
+    def __call__(self, world, window_end=None):
         start = time.perf_counter()
         rule_action = self.rule(world)
         self.stats.decisions += 1
@@ -414,7 +420,7 @@ class LookaheadPolicy:
             self.stats.seconds.append(time.perf_counter() - start)
             return rule_action
         self.stats.searched += 1
-        scores = self.scores(world, first=to_index(rule_action))
+        scores = self.scores(world, first=to_index(rule_action), window_end=window_end)
         rule_key = (to_index(rule_action), None)
         best = min(scores, key=lambda b: (scores[b], b != rule_key))
         self.stats.seconds.append(time.perf_counter() - start)

@@ -51,7 +51,7 @@ def _parse_variant(text):
 def _variant_parts(params):
     params = dict(params)
     policy = params.pop("policy", "lookahead")
-    placer = params.pop("placer", "dblf")
+    placer = params.pop("placer", "layer" if policy == "lookahead" else "dblf")
     layer = {k[6:]: params.pop(k) for k in list(params) if k.startswith("layer_")}
     if placer not in ("dblf", "layer") or policy not in ("rule", "lookahead"):
         raise ValueError(f"bad policy/placer: {policy}/{placer}")
