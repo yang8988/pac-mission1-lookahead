@@ -22,6 +22,7 @@ from _common import add_common_args, load_all
 
 from pac_highlevel import RulePolicy, run_policy
 from pac_highlevel.lookahead import LookaheadPolicy, lookahead_config_from_dict
+from pac_highlevel.placement import LayerPlacer, layer_config_from_dict
 from virtual_data.highlevel import split_ids, world_factory
 
 _JOB = None
@@ -29,27 +30,47 @@ KEEP = ("pallet_equivalents", "fill_per_pallet_used", "time_s", "ng", "safety_is
 
 
 def _parse_variant(text):
+    """NAME=key=value,...: LookaheadConfig fields, ``policy=rule|lookahead``,
+    ``placer=dblf|layer`` and ``layer_<LayerConfig field>``."""
     name, _, body = text.partition("=")
     params = {}
     for item in filter(None, body.split(",")):
         key, _, value = item.partition("=")
-        default = getattr(lookahead_config_from_dict({}), key)
+        if key in ("policy", "placer"):
+            params[key] = value
+            continue
+        if key.startswith("layer_"):
+            default = getattr(layer_config_from_dict({}), key[6:])
+        else:
+            default = getattr(lookahead_config_from_dict({}), key)
         params[key] = type(default)(value) if not isinstance(default, str) else value
     return name, params
 
 
+def _variant_parts(params):
+    params = dict(params)
+    policy = params.pop("policy", "lookahead")
+    placer = params.pop("placer", "dblf")
+    layer = {k[6:]: params.pop(k) for k in list(params) if k.startswith("layer_")}
+    if placer not in ("dblf", "layer") or policy not in ("rule", "lookahead"):
+        raise ValueError(f"bad policy/placer: {policy}/{placer}")
+    return policy, (LayerPlacer(layer_config_from_dict(layer)) if placer == "layer" else None), params
+
+
 def _episode(i):
-    factory, hl, variants = _JOB
+    make, hl, variants = _JOB
     row = {"episode": i}
     t = time.perf_counter()
-    out = run_policy(factory(i), RulePolicy(hl))
+    out = run_policy(make(None)(i), RulePolicy(hl))
     row["rule"] = {k: out[k] for k in KEEP} | {"wall_s": round(time.perf_counter() - t, 1)}
     for name, params in variants:
-        policy = LookaheadPolicy(hl, lookahead_config_from_dict(params))
+        kind, placer, cfg = _variant_parts(params)
+        policy = RulePolicy(hl) if kind == "rule" else LookaheadPolicy(hl, lookahead_config_from_dict(cfg))
         t = time.perf_counter()
-        out = run_policy(factory(i), policy)
-        row[name] = {k: out[k] for k in KEEP} | {"wall_s": round(time.perf_counter() - t, 1),
-                                                 "search": policy.stats.summary()}
+        out = run_policy(make(placer)(i), policy)
+        row[name] = {k: out[k] for k in KEEP} | {"wall_s": round(time.perf_counter() - t, 1)}
+        if kind == "lookahead":
+            row[name]["search"] = policy.stats.summary()
     return row
 
 
@@ -82,7 +103,9 @@ def summarize(rows, name):
             "better": better, "equal": len(d) - better - worse, "worse": worse,
             "sign_test_p": round(sign_test(better, worse), 4),
         }
-        s = [r[name]["search"] for r in rows]
+        s = [r[name]["search"] for r in rows if "search" in r[name]]
+        if not s:
+            return out
         dec = sum(x["decisions"] for x in s)
         out["search"] = {
             "decision_s_mean": round(statistics.fmean(x["decision_s_mean"] for x in s), 3),
@@ -114,7 +137,10 @@ def main():
     if args.limit:
         n = min(n, args.limit)
     global _JOB
-    _JOB = (world_factory(dataset, specs, cand, vcfg, hl, shuffle_seed=args.seed), hl, variants)
+    def make(placer):
+        return world_factory(dataset, specs, cand, vcfg, hl, shuffle_seed=args.seed, placer=placer)
+
+    _JOB = (make, hl, variants)
     rows = []
     with mp.get_context("fork").Pool(args.workers) as pool:
         for row in pool.imap_unordered(_episode, range(n)):

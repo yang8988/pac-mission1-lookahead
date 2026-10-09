@@ -145,3 +145,36 @@ def test_one_placement_candidate_is_the_plain_action_search():
     a = LookaheadPolicy(world(boxes).config, LookaheadConfig(horizon=3))
     b = LookaheadPolicy(world(boxes).config, LookaheadConfig(horizon=3, place_candidates=1))
     assert run_policy(world(boxes), a)["pallet_equivalents"] == run_policy(world(boxes), b)["pallet_equivalents"]
+
+
+# ---------------------------------------------------------------- 5-3 flat layers
+
+
+def test_layer_placer_continues_a_level_surface():
+    from pac_highlevel import LayerPlacer
+    from pac_highlevel.placement import ring_metrics, LayerConfig
+    import numpy as np
+
+    cfg = LayerConfig()
+    grid = np.zeros((60, 50))
+    grid[0:20, :] = 0.2  # a 0.4 m wide strip of 0.2 m boxes along x = 0..0.4
+    # 0.2 m box on the floor right next to the strip: flush with its top
+    step_a, flush_a = ring_metrics(grid, 0.4, 0.0, 0.0, 0.2, 0.4, 0.2, cfg)
+    # 0.1 m box there: leaves a 0.1 m step
+    step_b, flush_b = ring_metrics(grid, 0.4, 0.0, 0.0, 0.2, 0.4, 0.1, cfg)
+    assert step_a < step_b and flush_a > flush_b
+
+
+def test_layer_placer_picks_only_valid_candidates_and_keeps_episodes_safe():
+    from pac_highlevel import LayerPlacer
+    from pac_highlevel import RulePolicy
+
+    boxes = mixed_boxes()
+    w = world(boxes)
+    w.placer = LayerPlacer()
+    out = run_policy(w, RulePolicy(w.config))
+    assert out["safety_issues"] == 0 and out["placed"] + out["ng"] == out["boxes"]
+    w2 = world(boxes)
+    w2.placer = LayerPlacer()
+    out2 = run_policy(w2, LookaheadPolicy(w2.config, LookaheadConfig(horizon=3, place_candidates=3)))
+    assert out2["safety_issues"] == 0

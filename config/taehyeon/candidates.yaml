@@ -28,8 +28,11 @@ candidates:
     min_lbcp_margin_m: 0.0
     pallet_overhang_m: 0.0
     default_pallet_max_weight_kg: 1000.0
+    # 2026-10-09: the mission item "never put a heavier box on a lighter one" was
+    # withdrawn. Crushing (box top-load capacity, McKee x safety factor 4 =
+    # BOX_CAPACITY) and collapse (support ratio, LBCP, pallet CoG) stay checked.
     heavy_on_light:
-      enabled: true
+      enabled: false
       mode: share                             # share (taehyeon 2026-10-08) | per_box (mission wording)
       max_weight_ratio: 1.0
       tolerance_kg: 0.5

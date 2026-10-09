@@ -11,6 +11,7 @@ from .actions import ActionType, HighLevelAction, action_count, from_index, to_i
 from .config import HighLevelConfig, config_from_dict, load_highlevel_config
 from .features import feature_names, observe
 from .lookahead import LookaheadConfig, LookaheadPolicy, load_lookahead_config
+from .placement import LayerConfig, LayerPlacer
 from .ppo import MaskablePPO
 from .rules import GreedyPolicy, RulePolicy
 from .runtime import HighLevelDecider, HighLevelDecision, load_policy
@@ -26,6 +27,8 @@ __all__ = [
     "HighLevelConfig",
     "HighLevelDecider",
     "HighLevelDecision",
+    "LayerConfig",
+    "LayerPlacer",
     "LookaheadConfig",
     "LookaheadPolicy",
     "MaskablePPO",

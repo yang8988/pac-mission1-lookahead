@@ -230,14 +230,21 @@ def _dblf_key(c):
 
 
 def placement_alternatives(world, box, default, k, min_dist):
-    """Up to ``k`` distinct safe placements of ``box``: ``default`` (the DBLF
-    choice) first, then DBLF-ranked candidates that differ by position
+    """Up to ``k`` distinct safe placements of ``box``: ``default`` (the 5-3
+    choice) first, then candidates in 5-3 order (DBLF or the world placer's
+    ``scores``) that differ by position
     (>= min_dist in x/y or a different level) or by orientation."""
     if default is None or k <= 1:
         return [default]
-    valid = world.backend().candidate_set(box, world.state()).valid
+    state = world.state()
+    backend = world.backend()
+    valid = backend.candidate_set(box, state).valid
+    if hasattr(world.placer, "scores"):  # rank by the world's own 5-3 rule (e.g. LayerPlacer)
+        ranked = [t[-1] for t in sorted(world.placer.scores(valid, box, state, backend), key=lambda t: t[:5])]
+    else:
+        ranked = sorted(valid, key=_dblf_key)
     picks = [default]
-    for c in sorted(valid, key=_dblf_key):
+    for c in ranked:
         if len(picks) >= k:
             break
         p = c.target_pose
