@@ -1,0 +1,19 @@
+# Stage 4 look-ahead search over the next N boxes visible on the conveyor (taehyeon).
+# No learning: every option is simulated through the same 5-1/5-2 masks and the
+# end of the window is scored by hand. See docs/taehyeon/lookahead.md
+schema_version: 1
+lookahead:
+  horizon: 5            # boxes after the current one that the conveyor camera sees (val/test best: 5)
+  placer: layer         # 5-3 placement rule: layer (flat layers, default) | dblf
+  mode: pilot           # pilot: rule after the first action | beam: branch every decision
+  beam: 3               # beam mode only: states kept per first action and level
+  time_budget_s: 2.0    # per decision (robot cycle 7-8.5 s); unfinished branches are scored as they are
+  margin: 0.005         # leave the rule action only when the score is this much better
+  # end-of-window score, unit = pallet-volume fractions, lower is better
+  w_void: 1.0           # empty volume trapped below the open pallet's surface
+  w_rough: 0.3          # height std / pallet height of the open pallet
+  w_buffer: 0.01        # per occupied buffer slot
+  w_ng: 0.5             # per NG box
+  w_time: 0.0005        # per robot second
+  w_dead: 1.0           # share of expected volume with no safe spot x (1 - fill)
+  dead_top_skus: 6      # order-list SKUs checked for w_dead

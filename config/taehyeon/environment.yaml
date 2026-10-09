@@ -1,0 +1,28 @@
+# Environment of the cell and the goods for taehyeon's stages 4-5 (one file per site).
+# The team-wide pallet standard stays in config/default.yaml; this file is what the
+# look-ahead evaluation used (3 footprints, cargo height from the data). The algorithm
+# configs in config/taehyeon/ hold only algorithm settings; this file is
+# written into them at load time (tools/virtual_data/virtual_data/environment.py).
+# Leave a key out (or 0 / empty) to keep what the data or the other configs say.
+schema_version: 1
+environment:
+  pallet:
+    sizes_m: [[1.1, 1.1], [1.2, 1.0], [1.2, 0.8]]   # footprints, rotated over the scenarios
+    max_stack_height_m: 0      # cargo height above the deck; 0 = from the data (generator: 1.5 m)
+    max_load_kg: 1000
+  buffer:
+    slots: 4
+  conveyor:
+    visible_boxes: 5           # N: boxes after the current one the camera sees
+    interval_s: 6.0            # a box enters the camera view every interval (real-time run)
+  robot:                       # HDR50-22 assumptions
+    cycle_s: 8.0               # pick-and-place
+    buffer_travel_s: 4.0
+    pallet_change_s: 60.0
+    repack_move_s: 12.0
+    decision_budget_ratio: 0.25  # search time per decision = 25 % of the cycle (2 s)
+  catalog:
+    orientation: sku           # sku: each SKU's allowed orientations | config: candidates.yaml yaw_set
+    packaging_default: corrugated   # corrugated | rigid_crate | no_stack
+    packaging: {}              # {sku_id: type}
+    rated_top_load_n: {}       # {sku_id: N} for rigid_crate
